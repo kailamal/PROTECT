@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Records | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <img class="seal" src="../signin/logo.png" alt="">
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link active" href="record.html" aria-current="page">
+                    Records
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+                <a class="nav-link" href="../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link" href="../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link" href="../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link" href="../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page">
+            <div id="records-page">
+                <header class="page-header">
+                    <div class="heading">
+                        <h1>
+                            Records
+                        </h1>
+                    </div>
+                    <div class="header-actions">
+                        <button class="button secondary" id="export-button" type="button">
+                            &darr;&nbsp; Export list
+                        </button>
+                        <button class="button primary" id="new-button" type="button">
+                            + &nbsp;New record
+                        </button>
+                    </div>
+                </header>
+
+                <nav class="tabs" aria-label="Record views">
+                    <button class="tab active" type="button" data-view="active" aria-pressed="true">
+                        Active cases
+                        <span id="active-count">
+                            0
+                        </span>
+                    </button>
+                    <button class="tab" type="button" data-view="archived" aria-pressed="false">
+                        Archived
+                        <span>
+                            0
+                        </span>
+                    </button>
+                    <button class="tab" type="button" data-view="recent" aria-pressed="false">
+                        Recently viewed
+                    </button>
+                </nav>
+
+                <section aria-label="Search and filter records" class="filters">
+                    <label class="search">
+                        <span class="sr-only">
+                            Search name or case ID
+                        </span>
+                        <input id="search" type="search" placeholder="Search name or case ID">
+                    </label>
+                    <label>
+                        <span class="sr-only">
+                            Assigned officer
+                        </span>
+                        <select id="officer-filter">
+                            <option value="">
+                                All officers
+                            </option>
+                        
+                        </select>
+                    </label>
+                    <label>
+                        <span class="sr-only">
+                            Case status
+                        </span>
+                        <select id="status-filter">
+                            <option value="">
+                                All statuses
+                            </option>
+                            <option>Absconding probationer</option>
+                            <option>Active Supervision</option>
+                            <option>Under Investigation</option>
+                            <optgroup label="Previous statuses">
+                                <option>Follow-up</option>
+                                <option>Review due</option>
+                                <option>Compliant</option>
+                            </optgroup>
+                        </select>
+                    </label>
+                </section>
+
+                <div class="record-results">
+                    <div class="table-container" role="region" aria-label="Case list" tabindex="0">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        Case / Client
+                                    </th>
+                                    <th scope="col">
+                                        Case type
+                                    </th>
+                                    <th scope="col">
+                                        Assigned officer
+                                    </th>
+                                    <th scope="col">
+                                        Next walk-in
+                                    </th>
+                                    <th scope="col">
+                                        Case status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="records-body">
+                            </tbody>
+                        </table>
+                        <p class="empty-state" id="empty-state" hidden>
+                            No matching records found.
+                        </p>
+                    </div>
+                    <p class="archive-note" id="archive-note" hidden>
+                        Archived records retain the same case fields. Cases moved here can be restored from their overview.
+                    </p>
+                </div>
+                <footer class="table-footer">
+                    <p id="record-count" role="status">
+                        0 records
+                    </p>
+                    <nav class="pagination" aria-label="Record pagination">
+                        <button class="button secondary" type="button" id="previous">
+                            &larr; Previous
+                        </button>
+                        <div id="page-buttons">
+                        </div>
+                        <button class="button secondary" type="button" id="next">
+                            Next &rarr;
+                        </button>
+                    </nav>
+
+                </footer>
+
+                <p class="archive-summary" id="archive-summary" hidden></p>
+                <p class="feedback" id="feedback" role="status"></p>
+            </div>
+
+            <section class="record-wizard" id="record-wizard" aria-labelledby="new-title" hidden>
+                <h1 id="new-title" tabindex="-1">New probation record</h1>
+                <p class="wizard-intro">Create an individual case record &middot; Required information is reviewed before saving.</p>
+
+                <ol class="wizard-steps" aria-label="Record creation steps">
+                    <li aria-current="step">1&nbsp; Personal details</li>
+                    <li>2&nbsp; Case &amp; supervision</li>
+                    <li>3&nbsp; Review &amp; create</li>
+                </ol>
+
+                <form id="record-form" novalidate>
+                    <section class="wizard-panel" data-record-step aria-labelledby="personal-title">
+                        <h2 id="personal-title" tabindex="-1">Personal details</h2>
+                        <div class="wizard-grid">
+                            <label>Name
+                                <input name="client" required maxlength="100" autocomplete="off">
+                            </label>
+                            <label>Age
+                                <input name="age" type="number" min="0" max="130">
+                            </label>
+                            <label>Sex
+                                <input name="sex" maxlength="40">
+                            </label>
+                            <label>Address
+                                <input name="area" maxlength="160">
+                            </label>
+                            <label>Occupation
+                                <input name="occupation" maxlength="100">
+                            </label>
+                            <label>Educational Attainment
+                                <input name="education" maxlength="100">
+                            </label>
+                            <label>Mobile No.
+                                <input name="contact" type="tel" maxlength="40">
+                            </label>
+                            <div class="photo-panel">
+                                <div class="photo-avatar" aria-hidden="true">
+                                    <span id="photo-initials">&mdash;</span>
+                                    <img id="photo-preview" alt="" hidden>
+                                </div>
+                                <div class="photo-controls">
+                                    <p>Profile photo (optional)</p>
+                                    <button class="button secondary" type="button" id="upload-photo">Upload photo</button>
+                                    <button class="photo-remove" type="button" id="remove-photo" hidden>Remove</button>
+                                    <input id="profile-photo" type="file" accept="image/jpeg,image/png" aria-describedby="photo-hint" hidden>
+                                    <small id="photo-hint">JPG or PNG &middot; Up to 5 MB</small>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-panel" data-record-step aria-labelledby="case-title" hidden>
+                        <h2 id="case-title" tabindex="-1">Case &amp; supervision</h2>
+                        <div class="wizard-grid">
+                            <label>Case ID
+                                <input name="caseId" required maxlength="40" autocomplete="off">
+                            </label>
+                            <label>PPA docket no.
+                                <input name="docket" maxlength="160">
+                            </label>
+                            <label>Court
+                                <input name="court" maxlength="160">
+                            </label>
+                            <label>Criminal case no.
+                                <input name="criminalCase" maxlength="160">
+                            </label>
+                            <label>Offense
+                                <input name="offense" maxlength="160">
+                            </label>
+                            <label>Supervision
+                                <select name="supervision" required>
+                                    <option value="">Select supervision</option>
+                                    <option>Probation</option>
+                                    <option>Parole</option>
+                                </select>
+                            </label>
+                            <label>Next walk-in
+                                <input name="date" type="date" required>
+                            </label>
+                            <label>Case status
+                                <select name="status" required>
+                                    <option value="">Select case status</option>
+                                    <option>Absconding probationer</option>
+                                    <option>Active Supervision</option>
+                                    <option>Under Investigation</option>
+                                </select>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="wizard-panel" data-record-step aria-labelledby="review-title" hidden>
+                        <h2 id="review-title" tabindex="-1">Review &amp; create</h2>
+                        <dl class="wizard-grid review-grid" id="record-review"></dl>
+                    </section>
+
+                    <footer class="wizard-footer">
+                        <p id="wizard-hint" class="wizard-hint"></p>
+                        <p id="form-error" class="form-error" role="alert"></p>
+                        <div class="wizard-actions">
+                            <div>
+                                <button class="button secondary" type="button" id="cancel-button">Cancel</button>
+                                <button class="button secondary" type="button" id="back-button" hidden>Back</button>
+                            </div>
+                            <button class="button primary" type="submit" id="wizard-submit">Continue &rarr;</button>
+                        </div>
+                    </footer>
+                </form>
+            </section>
+        </main>
+
+        <dialog id="details-dialog" aria-labelledby="details-title">
+            <h2 id="details-title">
+            </h2>
+            <div id="details-content">
+            </div>
+            <form method="dialog">
+                <button class="button primary" type="submit">
+                    Close
+                </button>
+            </form>
+        </dialog>
+
+        <script src="data.js"></script>
+        <script src="script.js">
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Walk-ins | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <svg class="seal" viewBox="0 0 120 120" role="img" aria-label="Probation office emblem placeholder">
+                        <defs>
+                            <path id="seal-top" d="M 19,60 A 41,41 0 0,1 101,60"/>
+                            <path id="seal-bottom" d="M 14,62 A 46,46 0 0,0 106,62"/>
+                        </defs>
+                        <path d="M60 2 68 10 79 6 84 17 96 17 98 29 109 34 106 46 117 54 110 64 114 76 103 82 102 94 90 97 84 109 72 106 62 117 53 109 41 113 35 102 23 101 20 89 9 83 13 71 3 61 11 51 7 39 18 33 19 21 31 18 37 7 49 11Z" fill="#fff9ed" stroke="#a72433" stroke-width="1.5"/>
+                        <circle cx="60" cy="60" r="49" fill="#fffdf5" stroke="#64563d"/>
+                        <circle cx="60" cy="60" r="37" fill="#f7d54c" stroke="#8b7b37"/>
+                        <text font-family="Arial" font-size="6.2" font-weight="bold" fill="#333">
+                            <textPath href="#seal-top" startOffset="50%" text-anchor="middle">
+                                PAROLE AND PROBATION ADMINISTRATION
+                            </textPath>
+                        </text>
+                        <text font-family="Arial" font-size="6" font-weight="bold" fill="#333">
+                            <textPath href="#seal-bottom" startOffset="50%" text-anchor="middle">
+                                DEPARTMENT OF JUSTICE • PHILIPPINES
+                            </textPath>
+                        </text>
+                        <path d="M37 32v55m5-57v60m5-62v64m5-65v66" stroke="#fff7c1" stroke-width="2"/>
+                        <path d="M65 39v43m-11 1h24M57 47h23M68 34v8M57 47l-7 16h14zm22 0-7 16h14z" fill="none" stroke="#a48d30" stroke-width="2"/>
+                        <path d="M76 87q16-10 15-30M79 82q-7-8 4-9m1 4q-5-9 5-11m-1 3q-5-9 3-12" fill="none" stroke="#5c973d" stroke-width="3"/>
+                    </svg>
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link" href="../record/record.html">
+                    Records
+                </a>
+                <a class="nav-link" href="../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link active" href="walk-in.html" aria-current="page">
+                    Walk-ins
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+                <a class="nav-link" href="../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link" href="../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page walk-ins-page">
+            <header class="page-header">
+                <div class="heading">
+                    <h1>
+                        Walk-ins
+                    </h1>
+                    <p>
+                        Track scheduled visits, record walk-ins, and review missed appointments for follow-up.
+                    </p>
+                </div>
+            </header>
+
+            <section class="today-summary" aria-label="Today's appointment summary">
+                <h2>
+                    Today
+                </h2>
+                <strong>
+                    0 scheduled
+                </strong>
+                <span class="completed">
+                    0 completed
+                </span>
+                <span>
+                    0 remaining
+                </span>
+                <span class="missed">
+                    0 missed &middot; Review needed
+                </span>
+            </section>
+
+            <section class="log-card" aria-labelledby="log-title">
+                <header class="log-header">
+                    <h2 id="log-title">
+                        Walk-in log
+                    </h2>
+                    <p>
+                        No visits scheduled
+                    </p>
+                </header>
+
+                <div class="table-scroll">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Name
+                                </th>
+                                <th scope="col">
+                                    Time
+                                </th>
+                                <th scope="col">
+                                    Date
+                                </th>
+                                <th scope="col">
+                                    Purpose
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="walk-in-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="log-card follow-up" aria-labelledby="follow-up-title">
+                <header class="follow-up-header">
+                    <h2 id="follow-up-title">
+                        Follow-up queue
+                    </h2>
+                    <p>
+                        Review before changing status.
+                    </p>
+                </header>
+
+                <div class="table-scroll">
+                    <table class="follow-up-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Client / Case
+                                </th>
+                                <th scope="col">
+                                    Scheduled
+                                </th>
+                                <th scope="col">
+                                    Status
+                                </th>
+                                <th scope="col">
+                                    Assigned officer
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="follow-up-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <p class="feedback" id="feedback" role="status">
+            </p>
+                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
+</main>
+
+        <dialog id="visit-dialog" aria-labelledby="visit-title">
+            <h2 id="visit-title">
+            </h2>
+            <dl id="visit-details">
+            </dl>
+            <p class="dialog-note" id="visit-note">
+            </p>
+            <div class="dialog-actions">
+                <a class="button secondary" id="case-link" href="../record/record.html">
+                    Open case
+                </a>
+                <button class="button primary" id="close-visit" type="button">
+                    Close
+                </button>
+            </div>
+        </dialog>
+
+        <dialog id="review-dialog" aria-labelledby="review-title">
+            <form id="review-form">
+                <h2 id="review-title">
+                    Review follow-up
+                </h2>
+                <p id="review-client">
+                </p>
+                <label class="review-label">
+                    Status
+                    <select id="review-status">
+                        <option>
+                            Awaiting review
+                        </option>
+                        <option>
+                            Contact attempted
+                        </option>
+                        <option>
+                            Rescheduled
+                        </option>
+                        <option>
+                            Resolved
+                        </option>
+                    </select>
+                </label>
+                <label class="review-label">
+                    Review note
+                    <textarea id="review-note" rows="3" maxlength="500" placeholder="Add a note before changing status" required>
+                    </textarea>
+                </label>
+                <p class="dialog-note">
+                    Demo updates last for this page session.
+                </p>
+                <div class="dialog-actions">
+                    <button class="button secondary" id="cancel-review" type="button">
+                        Cancel
+                    </button>
+                    <button class="button primary" type="submit">
+                        Save review
+                    </button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog id="details-dialog" aria-labelledby="details-title">
+            <h2 id="details-title">
+            </h2>
+            <p>
+                This section has not been built yet. Use the sidebar to visit Overview, Records, Documents, or Walk-ins.
+            </p>
+            <form method="dialog">
+                <button class="button primary">
+                    Close
+                </button>
+            </form>
+        </dialog>
+
+        <script src="script.js">
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+
+</html>

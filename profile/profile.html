@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            My profile | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="../record/style.css">
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <img class="seal" src="../signin/logo.png" alt="">
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link" href="../record/record.html">
+                    Records
+                </a>
+                <a class="nav-link" href="../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link" href="../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link" href="../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link" href="../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="profile-avatar sidebar-avatar" aria-hidden="true"></div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page profile-page">
+            <header class="profile-header">
+                <h1>My profile</h1>
+                <p>Review your account status and access for this workspace.</p>
+            </header>
+
+            <section class="profile-card account-identity" aria-labelledby="profile-account">
+                <div class="profile-avatar" aria-hidden="true"></div>
+                <div>
+                    <h2 id="profile-account" data-account-email>Signed-in account</h2>
+                </div>
+                <span class="account-badge">Signed in</span>
+            </section>
+
+            <section class="profile-card account-status" aria-labelledby="account-status-title">
+                <h2 id="account-status-title">Account status</h2>
+                <dl>
+                    <dt>Account access</dt>
+                    <dd class="account-access">Signed in</dd>
+                    <dt>Role permissions</dt>
+                    <dd>&mdash;</dd>
+                    <dt>Document management</dt>
+                    <dd>&mdash;</dd>
+                    <dt>Session security</dt>
+                    <dd>&mdash;</dd>
+                </dl>
+            </section>
+
+            <footer class="profile-actions">
+                <p>Logging out ends this session and returns you to sign-in.</p>
+                <p class="form-error" data-sign-out-error role="alert"></p>
+                <div>
+                    <button class="button primary" type="button" data-profile-sign-out>Log out</button>
+                    <a class="button secondary" href="../overview/overview.html">Back to overview</a>
+                </div>
+            </footer>
+        </main>
+
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Analytics | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <svg class="seal" viewBox="0 0 120 120" role="img" aria-label="Probation office emblem placeholder">
+                        <defs>
+                            <path id="seal-top" d="M 19,60 A 41,41 0 0,1 101,60"/>
+                            <path id="seal-bottom" d="M 14,62 A 46,46 0 0,0 106,62"/>
+                        </defs>
+                        <path d="M60 2 68 10 79 6 84 17 96 17 98 29 109 34 106 46 117 54 110 64 114 76 103 82 102 94 90 97 84 109 72 106 62 117 53 109 41 113 35 102 23 101 20 89 9 83 13 71 3 61 11 51 7 39 18 33 19 21 31 18 37 7 49 11Z" fill="#fff9ed" stroke="#a72433" stroke-width="1.5"/>
+                        <circle cx="60" cy="60" r="49" fill="#fffdf5" stroke="#64563d"/>
+                        <circle cx="60" cy="60" r="37" fill="#f7d54c" stroke="#8b7b37"/>
+                        <text font-family="Arial" font-size="6.2" font-weight="bold" fill="#333">
+                            <textPath href="#seal-top" startOffset="50%" text-anchor="middle">
+                                PAROLE AND PROBATION ADMINISTRATION
+                            </textPath>
+                        </text>
+                        <text font-family="Arial" font-size="6" font-weight="bold" fill="#333">
+                            <textPath href="#seal-bottom" startOffset="50%" text-anchor="middle">
+                                DEPARTMENT OF JUSTICE • PHILIPPINES
+                            </textPath>
+                        </text>
+                        <path d="M37 32v55m5-57v60m5-62v64m5-65v66" stroke="#fff7c1" stroke-width="2"/>
+                        <path d="M65 39v43m-11 1h24M57 47h23M68 34v8M57 47l-7 16h14zm22 0-7 16h14z" fill="none" stroke="#a48d30" stroke-width="2"/>
+                        <path d="M76 87q16-10 15-30M79 82q-7-8 4-9m1 4q-5-9 5-11m-1 3q-5-9 3-12" fill="none" stroke="#5c973d" stroke-width="3"/>
+                    </svg>
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link" href="../record/record.html">
+                    Records
+                </a>
+                <a class="nav-link" href="../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link" href="../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link active" href="analytics.html" aria-current="page">
+                    Analytics
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+                <a class="nav-link" href="../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page analytics-page">
+            <header class="page-header">
+                <div class="heading">
+                    <h1>
+                        Analytics
+                    </h1>
+                    <p>
+                        Review compliance trends, caseload summaries, and aggregate reports for the office.
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <label>
+                        <span class="sr-only">
+                            Report snapshot
+                        </span>
+                        <select id="snapshot">
+                            <option>
+                                No snapshots available
+                            </option>
+                        </select>
+                    </label>
+                    <button class="button primary" type="button" id="report-button">
+                        &darr; &nbsp;Generate report
+                    </button>
+                </div>
+            </header>
+
+            <section class="stats-grid" aria-label="Caseload summary">
+                <article class="metric-card">
+                    <h2>
+                        Compliance rate
+                    </h2>
+                    <p class="metric-value blue">&mdash;</p>
+                    <p class="metric-description">
+                        No case data loaded
+                    </p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+                <article class="metric-card">
+                    <h2 class="green">
+                        Compliant
+                    </h2>
+                    <p class="metric-value purple">0</p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+                <article class="metric-card">
+                    <h2>
+                        Pending review
+                    </h2>
+                    <p class="metric-value orange">0</p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+                <article class="metric-card">
+                    <h2>
+                        Follow-up
+                    </h2>
+                    <p class="metric-value red">0</p>
+                    <p class="metric-description">
+                        Review needed
+                    </p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+            </section>
+
+            <div class="chart-grid">
+                <section class="chart-card trend-card" aria-labelledby="trend-title">
+                    <header class="chart-header">
+                        <h2 id="trend-title">
+                            Compliance trend
+                        </h2>
+                        <button class="button secondary" type="button" id="trend-export">Export trend</button>
+                    </header>
+
+                    <p class="empty-state">No compliance history available.</p>
+                </section>
+
+                <section class="chart-card caseload-card" aria-labelledby="caseload-title">
+                    <h2 id="caseload-title">
+                        Active caseload
+                    </h2>
+                    <p class="case-total">
+                        0 cases
+                    </p>
+                    <div class="stacked-bar" role="img" aria-label="No case data" style="background:#eff0f3"></div>
+                    <dl class="legend">
+                        <div class="purple">
+                            <dt>
+                                <span class="legend-dot">
+                                </span>
+                                Compliant
+                            </dt>
+                            <dd>0</dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <span class="legend-dot orange-dot">
+                                </span>
+                                Pending review
+                            </dt>
+                            <dd class="orange">0</dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <span class="legend-dot red-dot">
+                                </span>
+                                Follow-up
+                            </dt>
+                            <dd class="red">0</dd>
+                        </div>
+                    </dl>
+                    <p class="caseload-breakdown">
+                        Probation 0 &nbsp; &middot; &nbsp; Parole 0
+                    </p>
+                </section>
+
+            </div>
+            <aside class="privacy-note">
+                Personal details hidden &middot; Detailed exports need approval
+            </aside>
+
+            <p class="feedback" id="feedback" role="status">
+            </p>
+                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
+</main>
+
+        <dialog id="details-dialog" aria-labelledby="details-title">
+            <h2 id="details-title">
+            </h2>
+            <p>
+                This section has not been built yet.
+            </p>
+            <form method="dialog">
+                <button class="button primary">
+                    Close
+                </button>
+            </form>
+        </dialog>
+
+        <script src="script.js">
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+
+</html>

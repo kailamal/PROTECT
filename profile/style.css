@@ -1,0 +1,173 @@
+.profile-page {
+    padding-top: 78px;
+}
+
+.profile-header h1::after {
+    content: '';
+    display: block;
+    width: 145px;
+    height: 3px;
+    margin-top: 15px;
+    border-radius: 2px;
+    background: var(--orange);
+}
+
+.profile-header p, .account-status dt, .profile-actions > p:first-child {
+    color: #64728a;
+}
+
+.profile-header p {
+    margin: 17px 0 34px;
+}
+
+.profile-card {
+    border: 1px solid #e5e2e2;
+    border-radius: 8px;
+}
+
+.account-identity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 26px;
+    min-height: 170px;
+    padding: 25px;
+}
+
+.profile-avatar {
+    width: 101px;
+    aspect-ratio: 1;
+    border: 1px solid #e7e2e2;
+    border-radius: 50%;
+    background: #f4f0ee;
+}
+
+.sidebar-avatar {
+    width: 32px;
+    flex-shrink: 0;
+}
+
+.officer[aria-current="page"] {
+    outline: 1px solid var(--orange);
+}
+
+.account-identity h2 {
+    margin: 0;
+    font-size: 24px;
+    overflow-wrap: anywhere;
+}
+
+.account-badge {
+    min-width: 154px;
+    padding: 7px 15px;
+    border-radius: 8px;
+    background: #e4f2eb;
+    color: #126542;
+    text-align: center;
+    font-size: 13px;
+}
+
+.account-badge::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.account-status {
+    margin-top: 22px;
+    padding: 18px 22px 30px;
+}
+
+.account-status h2 {
+    margin: 0 0 17px;
+    font-size: 18px;
+}
+
+.account-status dl {
+    display: grid;
+    grid-template-columns: minmax(145px, 26%) minmax(0, 1fr);
+    gap: 12px 0;
+    margin: 0;
+}
+
+.account-status dt {
+    font-size: 13px;
+}
+
+.account-status dd {
+    margin: 0;
+}
+
+.account-access {
+    color: #126542;
+}
+
+.profile-actions {
+    margin-top: 27px;
+}
+
+.profile-actions p {
+    margin: 0 0 20px;
+    font-size: 13px;
+}
+
+.profile-actions .form-error:empty {
+    display: none;
+}
+
+.profile-actions > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+}
+
+.profile-actions .button {
+    min-height: 38px;
+    min-width: 138px;
+}
+
+.profile-actions .secondary {
+    min-width: 177px;
+    border-color: #cfd6e0;
+}
+
+@media (max-width: 1000px) {
+    .profile-page {
+        padding-top: 44px;
+    }
+}
+
+@media (max-width: 650px) {
+    .profile-page {
+        padding-top: 28px;
+    }
+
+    .account-identity {
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .account-identity .profile-avatar {
+        width: 66px;
+    }
+
+    .account-identity h2 {
+        font-size: 19px;
+    }
+
+    .account-badge {
+        grid-column: 2;
+        justify-self: start;
+        min-width: 0;
+    }
+
+    .account-status {
+        padding: 18px;
+    }
+}

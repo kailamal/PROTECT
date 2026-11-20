@@ -1,0 +1,20 @@
+<!doctype html><html><body><pre id="result">RUNNING</pre><iframe id="page" src="../signin/sign-in.html"></iframe><script>
+const output = document.getElementById('result');
+const frame = document.getElementById('page');
+frame.addEventListener('load', async () => {
+    try {
+        const w = frame.contentWindow;
+        const d = w.document;
+        if (!w.PROTECT_SIGNIN_READY) throw new Error('Sign-in handler did not initialize: ' + d.getElementById('form-status').textContent);
+        if (!w.ProtectAuth.client) throw new Error(w.ProtectAuth.error);
+        let called = false;
+        w.ProtectAuth.client.auth.signInWithPassword = async () => { called = true; return { data: {}, error: { code: 'invalid_credentials', status: 400 } }; };
+        d.getElementById('email').value = 'browser-test@example.com';
+        d.getElementById('password').value = 'not-a-real-password';
+        d.querySelector('#sign-in-form button[type="submit"]').click();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const status = d.getElementById('form-status');
+        output.textContent = JSON.stringify({ ready: w.PROTECT_SIGNIN_READY, clickReachedAuth: called, status: status.textContent, statusDisplay: w.getComputedStyle(status).display, statusVisible: status.getBoundingClientRect().height > 0 });
+    } catch(error) { output.textContent = 'FAIL: ' + error.message; }
+});
+</script></body></html>

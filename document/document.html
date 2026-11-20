@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Documents | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <svg class="seal" viewBox="0 0 120 120" role="img" aria-label="Probation office emblem placeholder">
+                        <defs>
+                            <path id="seal-top" d="M 19,60 A 41,41 0 0,1 101,60"/>
+                            <path id="seal-bottom" d="M 14,62 A 46,46 0 0,0 106,62"/>
+                        </defs>
+                        <path d="M60 2 68 10 79 6 84 17 96 17 98 29 109 34 106 46 117 54 110 64 114 76 103 82 102 94 90 97 84 109 72 106 62 117 53 109 41 113 35 102 23 101 20 89 9 83 13 71 3 61 11 51 7 39 18 33 19 21 31 18 37 7 49 11Z" fill="#fff9ed" stroke="#a72433" stroke-width="1.5"/>
+                        <circle cx="60" cy="60" r="49" fill="#fffdf5" stroke="#64563d"/>
+                        <circle cx="60" cy="60" r="37" fill="#f7d54c" stroke="#8b7b37"/>
+                        <text font-family="Arial" font-size="6.2" font-weight="bold" fill="#333">
+                            <textPath href="#seal-top" startOffset="50%" text-anchor="middle">
+                                PAROLE AND PROBATION ADMINISTRATION
+                            </textPath>
+                        </text>
+                        <text font-family="Arial" font-size="6" font-weight="bold" fill="#333">
+                            <textPath href="#seal-bottom" startOffset="50%" text-anchor="middle">
+                                DEPARTMENT OF JUSTICE • PHILIPPINES
+                            </textPath>
+                        </text>
+                        <path d="M37 32v55m5-57v60m5-62v64m5-65v66" stroke="#fff7c1" stroke-width="2"/>
+                        <path d="M65 39v43m-11 1h24M57 47h23M68 34v8M57 47l-7 16h14zm22 0-7 16h14z" fill="none" stroke="#a48d30" stroke-width="2"/>
+                        <path d="M76 87q16-10 15-30M79 82q-7-8 4-9m1 4q-5-9 5-11m-1 3q-5-9 3-12" fill="none" stroke="#5c973d" stroke-width="3"/>
+                    </svg>
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link" href="../record/record.html">
+                    Records
+                </a>
+                <a class="nav-link active" href="document.html" aria-current="page">
+                    Documents
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+                <a class="nav-link" href="../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link" href="../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link" href="../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page documents-page">
+            <header class="page-header">
+                <div class="heading">
+                    <h1>
+                        Documents
+                    </h1>
+                    <p>
+                        Store and preview linked case documents. Upload or replace files from the individual case record.
+                    </p>
+                </div>
+            </header>
+
+            <nav class="tabs" aria-label="Document views">
+                <button class="tab active" type="button" data-view="all" aria-pressed="true">
+                    All documents
+                    <span id="all-count">0</span>
+                </button>
+                <button class="tab" type="button" data-view="archived" aria-pressed="false">
+                    Archived
+                    <span id="archived-count">0</span>
+                </button>
+                <button class="tab" type="button" data-view="duplicates" aria-pressed="false">
+                    Duplicates
+                </button>
+            </nav>
+
+            <section class="filters" aria-label="Search and filter documents">
+                <label class="search">
+                    <span class="sr-only">
+                        Search documents or case ID
+                    </span>
+                    <input id="search" type="search" placeholder="Search documents or case ID">
+                </label>
+                <label>
+                    <span class="sr-only">
+                        Document category
+                    </span>
+                    <select id="category-filter">
+                        <option value="">
+                            All categories
+                        </option>
+                        <option>
+                            Court order
+                        </option>
+                        <option>
+                            Employment
+                        </option>
+                        <option>
+                            Assessment
+                        </option>
+                        <option>
+                            Supervision
+                        </option>
+                        <option>
+                            Compliance
+                        </option>
+                    </select>
+                </label>
+            </section>
+
+            <p class="table-hint">
+                Select a file to preview or archive it. Upload and replace files from the individual case record.
+            </p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Document
+                            </th>
+                            <th scope="col">
+                                Linked client
+                            </th>
+                            <th scope="col">
+                                Category
+                            </th>
+                            <th scope="col">
+                                Updated
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="documents-body">
+                    </tbody>
+                </table>
+                <p class="empty-state" id="empty-state" hidden>
+                    No matching documents found.
+                </p>
+            </div>
+            <footer class="table-footer">
+                <p id="document-count" role="status">
+                    Recent documents
+                </p>
+                <nav class="pagination" aria-label="Document pagination">
+                    <button class="button secondary" id="previous" type="button">
+                        Previous
+                    </button>
+                    <div id="page-buttons">
+                    </div>
+                    <button class="button secondary" id="next" type="button">
+                        Next
+                    </button>
+                </nav>
+
+            </footer>
+
+            <p class="feedback" id="feedback" role="status">
+            </p>
+                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
+</main>
+
+        <dialog id="preview-dialog" aria-labelledby="preview-title">
+            <div class="preview-header">
+                <span class="file-icon" aria-hidden="true">
+                    PDF
+                </span>
+                <div>
+                    <h2 id="preview-title">
+                    </h2>
+                    <p id="preview-meta">
+                    </p>
+                </div>
+            </div>
+            <dl id="preview-details">
+            </dl>
+            <div class="preview-placeholder">
+                <strong>
+                    Document preview
+                </strong>
+                <p>
+                    This sample document has no PDF attached. Connect the case file storage to display its contents.
+                </p>
+            </div>
+            <a class="case-link" id="case-link" href="../record/record.html">
+                Open linked case record &rarr;
+            </a>
+            <p class="dialog-note">
+                Archive changes apply to this page session only.
+            </p>
+            <div class="dialog-actions">
+                <button class="button secondary" id="archive-button" type="button">
+                    Archive document
+                </button>
+                <button class="button primary" id="close-preview" type="button">
+                    Close
+                </button>
+            </div>
+        </dialog>
+
+        <dialog id="details-dialog" aria-labelledby="details-title">
+            <h2 id="details-title">
+            </h2>
+            <p>
+                This section has not been built yet. Use the sidebar to open Overview, Records, or Documents.
+            </p>
+            <form method="dialog">
+                <button class="button primary" type="submit">
+                    Close
+                </button>
+            </form>
+        </dialog>
+
+        <script src="script.js">
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+
+</html>

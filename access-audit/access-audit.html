@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Access &amp; audit | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <svg class="seal" viewBox="0 0 120 120" role="img" aria-label="Probation office emblem placeholder">
+                        <defs>
+                            <path id="seal-top" d="M 19,60 A 41,41 0 0,1 101,60"/>
+                            <path id="seal-bottom" d="M 14,62 A 46,46 0 0,0 106,62"/>
+                        </defs>
+                        <path d="M60 2 68 10 79 6 84 17 96 17 98 29 109 34 106 46 117 54 110 64 114 76 103 82 102 94 90 97 84 109 72 106 62 117 53 109 41 113 35 102 23 101 20 89 9 83 13 71 3 61 11 51 7 39 18 33 19 21 31 18 37 7 49 11Z" fill="#fff9ed" stroke="#a72433" stroke-width="1.5"/>
+                        <circle cx="60" cy="60" r="49" fill="#fffdf5" stroke="#64563d"/>
+                        <circle cx="60" cy="60" r="37" fill="#f7d54c" stroke="#8b7b37"/>
+                        <text font-family="Arial" font-size="6.2" font-weight="bold" fill="#333">
+                            <textPath href="#seal-top" startOffset="50%" text-anchor="middle">
+                                PAROLE AND PROBATION ADMINISTRATION
+                            </textPath>
+                        </text>
+                        <text font-family="Arial" font-size="6" font-weight="bold" fill="#333">
+                            <textPath href="#seal-bottom" startOffset="50%" text-anchor="middle">
+                                DEPARTMENT OF JUSTICE • PHILIPPINES
+                            </textPath>
+                        </text>
+                        <path d="M37 32v55m5-57v60m5-62v64m5-65v66" stroke="#fff7c1" stroke-width="2"/>
+                        <path d="M65 39v43m-11 1h24M57 47h23M68 34v8M57 47l-7 16h14zm22 0-7 16h14z" fill="none" stroke="#a48d30" stroke-width="2"/>
+                        <path d="M76 87q16-10 15-30M79 82q-7-8 4-9m1 4q-5-9 5-11m-1 3q-5-9 3-12" fill="none" stroke="#5c973d" stroke-width="3"/>
+                    </svg>
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link" href="../record/record.html">
+                    Records
+                </a>
+                <a class="nav-link" href="../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link" href="../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link" href="../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link active" href="access-audit.html" aria-current="page">
+                    Access &amp; audit
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page access-page">
+            <header class="page-header">
+                <div class="heading">
+                    <h1>
+                        Access &amp; audit
+                    </h1>
+                    <p>
+                        Review your account access, security status, and recorded activity in the audit trail.
+                    </p>
+                </div>
+                <button class="button secondary" id="requests-button" type="button">
+                    Review requests &nbsp;
+                    <span id="request-total">0</span>
+                </button>
+            </header>
+
+            <section class="stats-grid" aria-label="Access summary">
+                <article class="summary-card">
+                    <h2>
+                        Active officials
+                    </h2>
+                    <p>0</p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+                <article class="summary-card">
+                    <h2>
+                        Permission roles
+                    </h2>
+                    <p>0</p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+                <article class="summary-card">
+                    <h2>
+                        Access requests
+                    </h2>
+                    <p id="request-stat">0</p>
+                    <span class="metric-ring" aria-hidden="true">
+                    </span>
+                </article>
+
+            </section>
+
+            <div class="access-grid">
+                <section class="panel officials-panel" aria-labelledby="officials-title">
+                    <header class="panel-header">
+                        <h2 id="officials-title">
+                            Authorized officials
+                        </h2>
+                        <label>
+                            <span class="sr-only">
+                                Search officials
+                            </span>
+                            <input type="search" id="official-search" placeholder="Search officials...">
+                        </label>
+                    </header>
+
+                    <div class="table-scroll">
+                        <table class="officials-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        Official
+                                    </th>
+                                    <th scope="col">
+                                        Role
+                                    </th>
+                                    <th scope="col">
+                                        Status
+                                    </th>
+                                    <th scope="col">
+                                        <span class="sr-only">
+                                            Actions
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="officials-body">
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="empty-state" id="officials-empty" hidden>
+                        No matching officials found.
+                    </p>
+                </section>
+
+                <section class="panel permissions-panel" aria-labelledby="permissions-title">
+                    <h2 id="permissions-title">
+                        Permissions
+                    </h2>
+                    <dl>
+                        <dt>
+                            Probation officer
+                        </dt>
+                        <dd>
+                            Assigned cases &amp; walk-ins
+                        </dd>
+                        <dt>
+                            Supervisor
+                        </dt>
+                        <dd>
+                            Analytics &amp; exports
+                        </dd>
+                        <dt>
+                            System administrator
+                        </dt>
+                        <dd>
+                            Accounts only &middot; No case access
+                        </dd>
+                    </dl>
+                </section>
+
+            </div>
+            <section class="panel audit-panel" aria-labelledby="audit-title">
+                <header class="panel-header">
+                    <div>
+                        <h2 id="audit-title">
+                            Audit trail
+                        </h2>
+                        <p>
+                            Read-only &middot; Case details hidden
+                        </p>
+                    </div>
+                    <button class="text-button" id="events-button" type="button" aria-expanded="false">
+                        View all events &rarr;
+                    </button>
+                </header>
+
+                <div class="table-scroll">
+                    <table class="audit-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Time
+                                </th>
+                                <th scope="col">
+                                    Official
+                                </th>
+                                <th scope="col">
+                                    Action
+                                </th>
+                                <th scope="col">
+                                    Reference
+                                </th>
+                                <th scope="col">
+                                    Result
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <p id="feedback" class="feedback" role="status">
+            </p>
+                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
+</main>
+
+        <dialog id="manage-dialog" aria-labelledby="manage-title">
+            <form id="manage-form">
+                <h2 id="manage-title">
+                    Manage official
+                </h2>
+                <p id="manage-name">
+                </p>
+                <label class="form-label">
+                    Role
+                    <select id="manage-role">
+                        <option>
+                            Probation officer
+                        </option>
+                        <option>
+                            Supervisor
+                        </option>
+                        <option>
+                            System admin
+                        </option>
+                    </select>
+                </label>
+                <label class="form-label">
+                    Status
+                    <select id="manage-status">
+                        <option>
+                            Active
+                        </option>
+                        <option>
+                            Suspended
+                        </option>
+                    </select>
+                </label>
+                <p class="dialog-note">
+                    Demo settings only. Changes do not grant or revoke real account permissions.
+                </p>
+                <div class="dialog-actions">
+                    <button class="button secondary" id="cancel-manage" type="button">
+                        Cancel
+                    </button>
+                    <button class="button primary" type="submit">
+                        Save changes
+                    </button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog id="requests-dialog" aria-labelledby="requests-title">
+            <h2 id="requests-title">
+                Access requests
+            </h2>
+            <p class="dialog-note">
+                No requests loaded. Account administration is not connected to Supabase yet.
+            </p>
+            <div id="requests-list">
+            </div>
+            <form method="dialog" class="dialog-actions">
+                <button class="button primary">
+                    Close
+                </button>
+            </form>
+        </dialog>
+
+        <script src="script.js">
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="../auth/guard.js"></script>
+    </body>
+
+</html>

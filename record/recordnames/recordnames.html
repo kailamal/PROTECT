@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Client case | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="style.css">
+        <style>html.auth-pending body { visibility: hidden; }</style>
+        <script>document.documentElement.classList.add('auth-pending');</script>
+    </head>
+
+    <body>
+        <aside class="sidebar">
+            <header class="brand">
+                <a class="brand-link" href="../../overview/overview.html" aria-label="P.R.O.T.E.C.T overview">
+                    <img class="seal" src="../../signin/logo.png" alt="">
+                    <span>
+                        P.R.O.T.E.C.T.
+                    </span>
+                </a>
+                <p>
+                    Probation Records Organization,
+                    <br>
+                    Tracking, Evidence, and
+                    <br>
+                    Compliance Tool
+                </p>
+            </header>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-link" href="../../overview/overview.html">
+                    Overview
+                </a>
+                <a class="nav-link active" href="../record.html" aria-current="page">
+                    Records
+                    <span class="active-dot" aria-hidden="true">
+                    </span>
+                </a>
+                <a class="nav-link" href="../../document/document.html">
+                    Documents
+                </a>
+                <a class="nav-link" href="../../walk-ins/walk-in.html">
+                    Walk-ins
+                </a>
+                <a class="nav-link" href="../../analytics/analytics.html">
+                    Analytics
+                </a>
+                <a class="nav-link" href="../../access-audit/access-audit.html">
+                    Access &amp; audit
+                </a>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <div class="officer">
+                    <div class="avatar" aria-hidden="true">
+                        --
+                    </div>
+                    <div>
+                        <p class="officer-name">
+                            Signed-in official
+                        </p>
+                        <p class="officer-role">
+                            Account
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+        </aside>
+
+        <main class="records-page client-page">
+            <div id="case-content">
+                <header class="client-header">
+                    <div class="client-identity">
+                        <div class="client-avatar" id="client-avatar" aria-hidden="true">--</div>
+                        <div>
+                            <h1 id="client-name">
+                                Client case
+                            </h1>
+                            <span class="archive-label" id="archive-label" hidden>
+                                Archived case
+                            </span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="button secondary" id="edit-button" type="button">
+                            Edit case overview
+                        </button>
+                        <button class="button secondary" id="archive-button" type="button" title="Move this case to Archived">
+                            Terminate
+                        </button>
+                        <button class="button secondary" id="delete-button" type="button">
+                            Delete
+                        </button>
+                    </div>
+                </header>
+
+                <nav class="tabs" aria-label="Client case sections">
+                    <button class="tab active" type="button" data-tab="overview" aria-pressed="true">
+                        Overview
+                    </button>
+                    <button class="tab" type="button" data-tab="documents" aria-pressed="false">
+                        Documents (<span id="document-total">0</span>)
+                    </button>
+                </nav>
+
+                <section id="overview-panel">
+                    <div class="section-heading">
+                        <h2>
+                            Case overview
+                        </h2>
+                    </div>
+                    <div class="table-container case-table" role="region" aria-label="Case overview fields" tabindex="0">
+                        <table>
+                            <thead>
+                                <tr id="case-headings">
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="case-values">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="detail-grid">
+                        <section class="detail-card">
+                            <h2>
+                                Contact &amp; location
+                            </h2>
+                            <dl>
+                                <dt>
+                                    Contact number
+                                </dt>
+                                <dd id="contact-number">
+                                    Not provided
+                                </dd>
+                                <dt>
+                                    Residential area
+                                </dt>
+                                <dd id="residential-area">
+                                    Not provided
+                                </dd>
+                            </dl>
+                            <button class="text-button" id="reveal-button" type="button">
+                                Reveal contact &rarr;
+                            </button>
+                        </section>
+
+                        <section class="detail-card">
+                            <div class="card-heading">
+                                <h2>Recent report history</h2>
+                                <a class="text-button" href="../../walk-ins/walk-in.html">Walk-ins &rarr;</a>
+                            </div>
+                            <p id="history-empty" class="history-empty">No report history yet.</p>
+                            <ol class="history-list" id="history-list">
+                            </ol>
+                        </section>
+
+                    </div>
+                </section>
+
+                <section id="documents-panel" hidden>
+                    <div class="section-heading">
+                        <h2 id="case-documents-title" tabindex="-1">Case documents</h2>
+                        <button class="button primary" id="open-upload" type="button">Upload document</button>
+                    </div>
+                    <p id="case-documents-empty">No documents are linked to this case.</p>
+                    <ul id="case-document-files" hidden></ul>
+                    <p id="case-document-status" role="status"></p>
+                </section>
+
+                <p id="feedback" class="feedback" role="status"></p>
+                <a class="back-link" href="../record.html">
+                    &larr; Back to records
+                </a>
+            </div>
+
+            <section class="document-upload" id="upload-panel" aria-labelledby="upload-title" hidden>
+                <header class="page-header">
+                    <h1 id="upload-title" tabindex="-1">Upload document</h1>
+                    <button class="button secondary" type="button" id="back-to-documents">&larr; Case documents</button>
+                </header>
+
+                <div class="upload-card">
+                    <h2>Choose a document</h2>
+                    <div class="upload-picker">
+                        <span class="upload-file-icon" aria-hidden="true"></span>
+                        <p id="upload-formats">PDF, JPG or PNG</p>
+                        <button class="button primary" id="choose-document" type="button" aria-describedby="upload-formats">Choose file</button>
+                        <input type="file" id="document-file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" hidden>
+                        <div class="upload-selected-file" id="selected-document" hidden>
+                            <p class="upload-filename" id="selected-document-name"></p>
+                            <p id="selected-document-details"></p>
+                            <button class="text-button" id="remove-document" type="button">Remove</button>
+                        </div>
+                        <p class="upload-selection" id="upload-selection" role="status"></p>
+                    </div>
+                    <dl class="upload-metadata">
+                        <dt>Linked case</dt>
+                        <dd id="upload-case"></dd>
+                        <dt>Category</dt>
+                        <dd>Case note</dd>
+                    </dl>
+                    <div class="upload-actions">
+                        <button class="button secondary" id="cancel-upload" type="button">Cancel</button>
+                        <button class="button primary" id="attach-document" type="button" hidden>Upload</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <dialog id="edit-dialog" aria-labelledby="edit-title">
+            <form id="edit-form">
+                <h2 id="edit-title">
+                    Edit case overview
+                </h2>
+                <p class="dialog-note">
+                    Changes are saved in this browser tab.
+                </p>
+                <div class="edit-fields" id="edit-fields">
+                </div>
+                <p id="edit-error" role="alert" class="missing-note">
+                </p>
+                <div class="dialog-actions">
+                    <button class="button secondary" id="cancel-edit" type="button">
+                        Cancel
+                    </button>
+                    <button class="button primary" type="submit">
+                        Save changes
+                    </button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+            <h2 id="confirm-title">
+                Delete case?
+            </h2>
+            <p>
+                This permanently removes this case from the records in this browser tab.
+            </p>
+            <div class="dialog-actions">
+                <button class="button secondary" id="cancel-delete" type="button">
+                    Cancel
+                </button>
+                <button class="button primary" id="confirm-delete" type="button">
+                    Delete case
+                </button>
+            </div>
+        </dialog>
+
+        <script src="../data.js">
+        </script>
+        <script src="script.js">
+        </script>
+        <script src="../../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../../auth/config.js"></script>
+        <script src="../../auth/client.js"></script>
+        <script src="../../auth/guard.js"></script>
+    </body>
+
+</html>

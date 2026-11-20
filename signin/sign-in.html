@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#a51b2b">
+        <title>
+            Sign in | P.R.O.T.E.C.T
+        </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <main class="page">
+
+            <aside class="story" aria-label="About P.R.O.T.E.C.T">
+                <div class="decoration" aria-hidden="true">
+                </div>
+
+                <header>
+                    <div class="brand">
+                        <img class="seal" src="logo.png" alt="Parole and Probation Administration seal">
+                        <p class="brand-name">
+                            P.R.O.T.E.C.T
+                        </p>
+                    </div>
+                    <p class="brand-description">
+                        Probation Records Organization, Tracking, Evidence, and Compliance Tool
+                    </p>
+                    <hr class="gold-rule">
+                </header>
+
+                <section class="story-main">
+                    <h2>
+                        Better records.
+                        <br>
+                        Accountable supervision.
+                        <br>
+                        Stronger communities.
+                    </h2>
+                    <hr class="gold-rule">
+                    <p class="office">
+                        DIGOS CITY PAROLE &amp; PROBATION OFFICE
+                    </p>
+                    <p class="description">
+                        One workspace for responsible case management -
+                        <br>
+                        from intake to completion.
+                    </p>
+                </section>
+
+                <footer class="story-footer">
+                    <strong>
+                        FOR OFFICIAL USE ONLY
+                    </strong>
+                    <p>
+                        Protecting confidential records starts with authorized access.
+                        <br>
+                        Every sign-in and record action is recorded in the audit trail.
+                    </p>
+                </footer>
+
+            </aside>
+
+            <section class="sign-in-panel" aria-labelledby="welcome">
+                <div class="sign-in-content">
+                    <p class="portal-badge">
+                        SECURE OFFICIAL PORTAL
+                    </p>
+                    <hr class="orange-rule">
+                    <h1 id="welcome">
+                        Welcome to P.R.O.T.E.C.T
+                    </h1>
+                    <p class="subtitle">
+                        Sign in with your account.
+                    </p>
+
+                    <form id="sign-in-form" novalidate>
+                        <div class="field">
+                            <label for="email">
+                                Official email address
+                            </label>
+                            <input id="email" name="email" type="email" autocomplete="username" placeholder="you@office.gov.ph" required>
+                        </div>
+                        <div class="field password-field">
+                            <label for="password">
+                                Password
+                            </label>
+                            <div class="password-wrap">
+                                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                                <button class="show-password" type="button" aria-label="Show password" aria-pressed="false" id="toggle-password">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="forgot-row">
+                            <button class="text-button" type="button" data-dialog="reset">
+                                Forgot password?
+                            </button>
+                        </div>
+                        <button class="submit" type="submit">
+                            Sign in
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M4 12h15m-6-6 6 6-6 6"/>
+                            </svg>
+                        </button>
+                        <p class="status" id="form-status" role="status" aria-live="polite">
+                            Loading sign-in controls...
+                        </p>
+                    </form>
+                    <noscript>JavaScript is required to sign in. Enable JavaScript in your browser.</noscript>
+
+                    <div class="notice">
+                        <strong>
+                            Access is restricted and monitored
+                        </strong>
+                        <p>
+                            By signing in, you confirm an authorized official purpose
+                            <br class="desktop-break">
+                            and agree to the office’s confidentiality policy.
+                        </p>
+                    </div>
+
+                    <footer class="help">
+                        <p>
+                            Need access? Contact your office administrator.
+                        </p>
+                        <div class="help-links">
+                            <button class="text-button" type="button" data-dialog="privacy">
+                                Privacy notice
+                            </button>
+                            <span aria-hidden="true">
+                                ·
+                            </span>
+                            <button class="text-button" type="button" data-dialog="support">
+                                Account support
+                            </button>
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+
+        </main>
+
+        <dialog id="information-dialog" aria-labelledby="dialog-title">
+            <h2 id="dialog-title">
+            </h2>
+            <p id="dialog-copy">
+            </p>
+
+            <form method="dialog">
+                <button class="submit">
+                    Close
+                </button>
+            </form>
+
+        </dialog>
+
+        <script>
+            window.addEventListener('load', function () {
+                if (!window.PROTECT_SIGNIN_READY) {
+                    document.getElementById('form-status').textContent = 'Sign-in JavaScript did not load. Open this page using Live Server and refresh with Ctrl + F5.';
+                }
+            });
+        </script>
+        <script src="../auth/vendor/supabase-2.49.8.js"></script>
+        <script src="../auth/config.js"></script>
+        <script src="../auth/client.js"></script>
+        <script src="script.js?v=20261117-3"></script>
+
+    </body>
+
+</html>
