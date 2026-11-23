@@ -4,6 +4,11 @@ const records = ProtectStore.load();
 
 const byId = id => document.getElementById(id);
 const pageSize = 6;
+const categoriesByStatus = {
+    'Active Supervision': 'Probation Supervision',
+    'Absconding probationer': 'Probation Supervision',
+    'Under Investigation': 'Probation Integration'
+};
 let currentPage = 1;
 let currentView = 'active';
 
@@ -17,18 +22,18 @@ function filteredRecords() {
     const search = byId('search').value.trim().toLowerCase();
     const officer = byId('officer-filter').value;
     const status = byId('status-filter').value;
-    let list = records.filter(record => currentView === 'archived' ? record.archived : !record.archived);
+    const category = byId('category-filter').value;
+    const list = records.filter(record => currentView === 'archived' ? record.archived : !record.archived);
 
-    if (currentView === 'recent') {
-        list = records.filter(record => record.lastViewed)
-            .sort((a, b) => b.lastViewed - a.lastViewed);
-    }
-
-    return list.filter(record =>
-        `${record.client} ${record.caseId}`.toLowerCase().includes(search) &&
-        (!officer || record.officer === officer) &&
-        (!status || record.status === status)
-    );
+    return list.filter(record => {
+        const caseStatus = ProtectStore.caseStatus(record);
+        const recordCategory = record.category || categoriesByStatus[caseStatus];
+        const matchesCategory = !category || recordCategory === category;
+        return matchesCategory &&
+            `${record.client} ${record.docket || ''} ${record.caseId}`.toLowerCase().includes(search) &&
+            (!officer || record.officer === officer) &&
+            (!status || caseStatus === status);
+    });
 }
 
 function cell(text) {
@@ -74,17 +79,22 @@ function render() {
         button.type = 'button';
         button.className = 'client-button';
         button.textContent = record.client;
-        button.setAttribute('aria-label', `View ${record.client}, ${record.caseId}`);
+        button.setAttribute('aria-label', record.docket
+            ? `View ${record.client}, PPA docket ${record.docket}`
+            : `View ${record.client}`);
         button.addEventListener('click', () => openRecord(record));
         const id = document.createElement('span');
         id.className = 'case-id';
-        id.textContent = record.caseId;
+        id.textContent = record.docket || '\u2014';
         clientCell.append(button, id);
-        const statusCell = document.createElement('td');
-        const badge = document.createElement('span');
-        badge.className = `status status-${record.status.toLowerCase().replaceAll(' ', '-')}`;
-        badge.textContent = record.status;
-        statusCell.append(badge);
+        const status = ProtectStore.caseStatus(record);
+        const statusCell = cell(status ? '' : '\u2014');
+        if (status) {
+            const badge = document.createElement('span');
+            badge.className = `status status-${status.toLowerCase().replaceAll(' ', '-')}`;
+            badge.textContent = status;
+            statusCell.append(badge);
+        }
         row.append(clientCell, cell(record.supervision), cell(record.officer), cell(formatDate(record.date)), statusCell);
         tbody.append(row);
     });
@@ -102,9 +112,6 @@ function render() {
     const emptyState = byId('empty-state');
     emptyState.hidden = list.length > 0;
     emptyState.textContent = archived && !archivedCount ? 'No archived cases yet.' : 'No matching records found.';
-    if (currentView === 'recent' && !records.some(record => record.lastViewed)) {
-        emptyState.textContent = 'Open a client record to see it here.';
-    }
     byId('record-count').textContent = list.length
         ? `${start + 1}–${Math.min(start + pageSize, list.length)} of ${list.length}` : '0 records';
     byId('previous').disabled = currentPage === 1;
@@ -124,8 +131,12 @@ function render() {
     }
 }
 
-['search', 'officer-filter', 'status-filter'].forEach(id => {
+['search', 'officer-filter', 'status-filter', 'category-filter'].forEach(id => {
     byId(id).addEventListener(id === 'search' ? 'input' : 'change', () => {
+        if (id === 'status-filter' && byId(id).value === 'Terminated' && currentView === 'active') {
+            document.querySelector('[data-view="archived"]').click();
+            return;
+        }
         currentPage = 1;
         render();
     });
@@ -134,6 +145,9 @@ function render() {
 document.querySelectorAll('[data-view]').forEach(button => {
     button.addEventListener('click', () => {
         currentView = button.dataset.view;
+        if (currentView === 'active' && byId('status-filter').value === 'Terminated') {
+            byId('status-filter').value = '';
+        }
         currentPage = 1;
         document.querySelectorAll('[data-view]').forEach(tab => {
             const selected = tab === button;
@@ -145,8 +159,20 @@ document.querySelectorAll('[data-view]').forEach(button => {
 });
 
 byId('previous').addEventListener('click', () => { currentPage--; render(); });
+byId('status-guide').addEventListener('click', () => showDetails('Case statuses', [
+    'Absconding probationer — Difficult to contact or locate, and unresponsive or uncooperative during follow-ups.',
+    'Active Supervision — Cooperates, communicates regularly, and submits daily reports.',
+    'Under Investigation — Has yet to submit today’s report and is still being monitored.',
+    'Terminated — The case has officially closed, and supervision or investigation has ended.'
+]));
 byId('next').addEventListener('click', () => { currentPage++; render(); });
 const recordForm = byId('record-form');
+const mobileInput = byId('mobile-contact');
+const mobilePicker = window.intlTelInput(mobileInput, {
+    initialCountry: 'ph',
+    separateDialCode: true,
+    validationNumberTypes: ['MOBILE', 'FIXED_LINE_OR_MOBILE']
+});
 const wizard = byId('record-wizard');
 const wizardPanels = [...wizard.querySelectorAll('[data-record-step]')];
 const wizardSteps = [...wizard.querySelectorAll('.wizard-steps li')];
@@ -158,17 +184,21 @@ let profilePhoto = '';
 
 function showRecordStep(step) {
     recordStep = step;
+    wizard.classList.toggle('is-reviewing', step === 2);
     wizardPanels.forEach((panel, index) => { panel.hidden = index !== step; });
     wizardSteps.forEach((item, index) => {
+        item.classList.toggle('is-complete', index < step);
         if (index === step) item.setAttribute('aria-current', 'step');
         else item.removeAttribute('aria-current');
     });
     byId('back-button').hidden = step === 0;
+    byId('back-button').textContent = '\u2190 Back';
+    if (step === 1) byId('case-officer').value = window.ProtectCurrentUser?.email || 'Unassigned';
     submitRecord.textContent = step === 2 ? 'Create record' : 'Continue \u2192';
     byId('wizard-hint').textContent = [
         'Step 1 of 3 \u00b7 Next: add court and supervision details.',
         'Step 2 of 3 \u00b7 Next: review your entries.',
-        'Step 3 of 3 \u00b7 The record is saved in this browser tab.'
+        recordAssignmentNote()
     ][step];
     formError.textContent = '';
     wizardPanels[step].querySelector('h2').focus();
@@ -189,7 +219,10 @@ function closeRecordWizard() {
     wizard.hidden = true;
     byId('records-page').hidden = false;
     recordForm.reset();
-    byId('record-review').replaceChildren();
+    mobilePicker.setNumber('');
+    mobilePicker.setCountry('ph');
+    byId('review-personal').replaceChildren();
+    byId('review-case').replaceChildren();
     profilePhoto = '';
     submitRecord.disabled = false;
     updatePhotoPreview();
@@ -205,6 +238,12 @@ byId('new-button').addEventListener('click', () => {
 byId('cancel-button').addEventListener('click', closeRecordWizard);
 byId('back-button').addEventListener('click', () => showRecordStep(recordStep - 1));
 recordForm.elements.client.addEventListener('input', updatePhotoPreview);
+for (const key of ['start', 'end']) {
+    const date = recordForm.elements[key];
+    const status = recordForm.elements[`${key}Status`];
+    date.addEventListener('input', () => { if (date.value) status.value = ''; });
+    status.addEventListener('change', () => { if (status.value) date.value = ''; });
+}
 byId('upload-photo').addEventListener('click', () => photoInput.click());
 byId('remove-photo').addEventListener('click', () => {
     photoInput.value = '';
@@ -250,23 +289,45 @@ photoInput.addEventListener('change', async () => {
     }
 });
 
-function reviewRecord(record) {
-    const review = byId('record-review');
-    const entries = [...wizard.querySelectorAll('.wizard-grid label')].map(label => {
+function recordAssignmentNote() {
+    const officer = window.ProtectCurrentUser?.email;
+    const assignment = officer ? `The new case will be assigned to ${officer}.` : 'The new case will be unassigned.';
+    return `${assignment} Documents can be added after creation.`;
+}
+
+function reviewEntries(panel, record) {
+    return [...panel.querySelectorAll('.wizard-grid label')].filter(label => label.control?.name).map(label => {
         const field = label.control;
-        const value = record[field.name];
-        return [label.firstChild.textContent.trim(), field.type === 'date' && value ? formatDate(value) : value];
+        let value = record[field.name];
+        if (field.name === 'contact' && value) {
+            const digits = value.replace(/\D/g, '');
+            value = digits.length > 4 ? `\u2022\u2022\u2022\u2022 \u2022\u2022\u2022 ${digits.slice(-4)}` : '\u2022\u2022\u2022\u2022';
+        }
+        if (field.type === 'date') value = value ? formatDate(value) : record[`${field.name}Status`];
+        return [label.firstChild.textContent.trim(), value];
     });
-    if (record.profilePhoto) entries.push(['Profile photo', 'Attached']);
-    review.replaceChildren(...entries.filter(([, value]) => value).map(([label, value]) => {
+}
+
+function renderReviewEntries(list, entries) {
+    list.replaceChildren(...entries.map(([label, value]) => {
         const group = document.createElement('div');
         const term = document.createElement('dt');
         const detail = document.createElement('dd');
         term.textContent = label;
-        detail.textContent = value;
+        detail.textContent = value || '\u2014';
         group.append(term, detail);
         return group;
     }));
+}
+
+function reviewRecord(record) {
+    const personal = reviewEntries(wizardPanels[0], record);
+    personal.push(['Profile photo', record.profilePhoto ? 'Attached' : 'Not added \u00b7 Optional']);
+    const caseDetails = reviewEntries(wizardPanels[1], record);
+    caseDetails.splice(1, 0, ['Category', record.category]);
+    caseDetails.push(['Officer-in-Charge', record.officer]);
+    renderReviewEntries(byId('review-personal'), personal);
+    renderReviewEntries(byId('review-case'), caseDetails);
 }
 
 recordForm.addEventListener('submit', event => {
@@ -283,21 +344,29 @@ recordForm.addEventListener('submit', event => {
     }
 
     const record = Object.fromEntries([...new FormData(recordForm)].map(([key, value]) => [key, value.trim()]));
-    record.caseId = record.caseId.toUpperCase();
+    if (record.contact) {
+        if (!/^[+\d\s().-]+$/.test(record.contact) || !mobilePicker.isValidNumber()) {
+            if (recordStep !== 0) showRecordStep(0);
+            formError.textContent = 'Enter a valid mobile number for the selected country.';
+            mobileInput.focus();
+            return;
+        }
+        record.contact = mobilePicker.getNumber();
+    }
+    if (record.docket) {
+        const prefix = record.category === 'Probation Supervision' ? 'PS' : 'PI';
+        record.docket = `${prefix}-${record.docket.replace(/^(?:PI|PS)\s*-\s*/i, '')}`;
+    }
+    record.status = '';
+    record.officer = window.ProtectCurrentUser?.email || 'Unassigned';
     if (profilePhoto) record.profilePhoto = profilePhoto;
 
-    if (recordStep >= 1 && records.some(existing => existing.caseId.toUpperCase() === record.caseId)) {
-        if (recordStep === 2) showRecordStep(1);
-        formError.textContent = 'That case ID already exists.';
-        recordForm.elements.caseId.focus();
-        return;
-    }
     if (recordStep < 2) {
         if (recordStep === 1) reviewRecord(record);
         showRecordStep(recordStep + 1);
         return;
     }
-    record.officer = window.ProtectCurrentUser?.email || 'Unassigned';
+    record.caseId = crypto.randomUUID();
     if (!ProtectStore.save([record, ...records])) {
         formError.textContent = 'Unable to save this record in the browser tab. Remove the photo and try again, or check browser storage.';
         return;
@@ -319,8 +388,8 @@ byId('export-button').addEventListener('click', () => {
         return `"${text.replaceAll('"', '""')}"`;
     };
     const rows = [
-        ['Client', 'Case ID', 'Supervision', 'Assigned officer', 'Next walk-in', 'Case status'],
-        ...list.map(record => [record.client, record.caseId, record.supervision, record.officer, record.date, record.status])
+        ['Client', 'Case ID', 'Supervision', 'Assigned officer', 'Walk-in', 'Case status'],
+        ...list.map(record => [record.client, record.caseId, record.supervision, record.officer, record.date, ProtectStore.caseStatus(record)])
     ];
     const csv = rows.map(row => row.map(escapeCsv).join(',')).join('\r\n');
     const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));

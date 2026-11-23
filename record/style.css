@@ -225,6 +225,11 @@ tbody tr:hover {
     color: #126542;
 }
 
+.status-terminated {
+    background: #f0e7fa;
+    color: #67349a;
+}
+
 .status-compliant::before, .status-active-supervision::before, .status-absconding-probationer::before {
     content: '';
     display: inline-block;
@@ -428,12 +433,24 @@ dialog p {
     font-size: 14px;
 }
 
-.wizard-grid input:not([type="file"]), .wizard-grid select {
+.wizard-grid input:not([type="file"], .iti__search-input), .wizard-grid select {
     width: 100%;
     min-width: 0;
     height: var(--dashboard-control-height);
     padding: 0 11px;
     border-color: #cfd6e0;
+}
+
+.paired-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+#docket-prefix-help {
+    display: block;
+    margin-top: 4px;
 }
 
 .photo-panel {
@@ -491,26 +508,87 @@ dialog p {
     margin-top: 8px;
 }
 
-.review-grid {
-    margin: 0;
-    padding-bottom: 18px;
+.wizard-steps .is-complete {
+    background: #e4f2eb;
+    color: #216e50;
 }
 
-.review-grid > div {
+.wizard-steps .is-complete::before {
+    content: "\2713";
+    margin-right: 0.5em;
+}
+
+.wizard-steps .is-complete .step-number {
+    display: none;
+}
+
+.is-reviewing .wizard-panel {
+    min-height: 0;
+}
+
+.review-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    color: #344157;
+}
+
+.review-card {
     min-width: 0;
-    padding: 12px;
+    padding: 16px 19px 28px;
     border: 1px solid var(--border);
     border-radius: 8px;
 }
 
-.review-grid dt {
-    color: #56647d;
+.review-card h3 {
+    margin: 0 0 14px;
+    font-size: 17px;
+}
+
+.review-card dl {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+}
+
+.review-card dl > div {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 8px;
+    align-items: baseline;
+}
+
+#review-personal > div:last-child {
+    margin-top: 12px;
+}
+
+.review-card dt {
+    color: #64728a;
     font-size: 12px;
 }
 
-.review-grid dd {
-    margin: 5px 0 0;
+.review-card dd {
+    margin: 0;
+    font-size: 13px;
     overflow-wrap: anywhere;
+}
+
+.is-reviewing .wizard-hint {
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+}
+
+.is-reviewing .wizard-actions {
+    margin-top: 26px;
+}
+
+.is-reviewing .wizard-actions > div {
+    display: contents;
+}
+
+.is-reviewing #back-button {
+    margin-left: auto;
+    color: #b41e31;
 }
 
 .wizard-hint {
@@ -572,6 +650,15 @@ dialog p {
 }
 
 @media (max-width: 650px) {
+    .review-cards {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .is-reviewing .wizard-actions .button {
+        min-width: 0;
+    }
+
     .archive-view .record-results {
         min-height: auto;
     }
@@ -673,4 +760,8 @@ dialog p {
     * {
         transition: none !important;
     }
+}
+.mobile-number .iti {
+    width: 100%;
+    margin-top: 6px;
 }

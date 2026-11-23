@@ -91,7 +91,7 @@
 
         </aside>
 
-        <main class="records-page documents-page">
+        <main class="records-page documents-page" id="document-list">
             <header class="page-header">
                 <div class="heading">
                     <h1>
@@ -147,12 +147,13 @@
                         <option>
                             Compliance
                         </option>
+                        <option>Case note</option>
                     </select>
                 </label>
             </section>
 
             <p class="table-hint">
-                Select a file to preview or archive it. Upload and replace files from the individual case record.
+                Select a file to view its details. Upload files from the individual case record.
             </p>
             <div class="table-container">
                 <table>
@@ -198,46 +199,41 @@
 
             <p class="feedback" id="feedback" role="status">
             </p>
-                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
-</main>
+        </main>
 
-        <dialog id="preview-dialog" aria-labelledby="preview-title">
-            <div class="preview-header">
-                <span class="file-icon" aria-hidden="true">
-                    PDF
-                </span>
-                <div>
-                    <h2 id="preview-title">
-                    </h2>
-                    <p id="preview-meta">
-                    </p>
-                </div>
+        <main class="records-page document-detail" id="document-detail" hidden>
+            <header class="document-detail-header">
+                <h1 id="preview-title"></h1>
+                <a class="button secondary" href="document.html">&larr; Documents</a>
+            </header>
+            <div class="document-detail-layout">
+                <section class="document-preview-panel" aria-labelledby="document-name">
+                    <article class="document-preview-sheet">
+                        <p class="document-preview-label">Document preview</p>
+                        <h2 id="document-name"></h2>
+                        <p id="preview-client"></p>
+                        <p class="document-meta" id="preview-case-id"></p>
+                        <h3>Document information</h3>
+                        <dl id="preview-details"></dl>
+                    </article>
+                </section>
+                <aside class="document-detail-sidebar">
+                    <section class="document-file-card">
+                        <h2>File details</h2>
+                        <p class="document-meta" id="preview-meta"></p>
+                        <p class="document-case-label">Linked case</p>
+                        <a class="client-link" id="case-link"></a>
+                        <p class="document-meta" id="linked-case-id"></p>
+                        <button class="button secondary" id="download-document" type="button">Download file</button>
+                        <p id="preview-feedback" role="status"></p>
+                    </section>
+                    <section class="document-archive-card">
+                        <h2 id="document-status"></h2>
+                        <p>Files follow the linked case. Terminating a case archives its documents.</p>
+                    </section>
+                </aside>
             </div>
-            <dl id="preview-details">
-            </dl>
-            <div class="preview-placeholder">
-                <strong>
-                    Document preview
-                </strong>
-                <p>
-                    This sample document has no PDF attached. Connect the case file storage to display its contents.
-                </p>
-            </div>
-            <a class="case-link" id="case-link" href="../record/record.html">
-                Open linked case record &rarr;
-            </a>
-            <p class="dialog-note">
-                Archive changes apply to this page session only.
-            </p>
-            <div class="dialog-actions">
-                <button class="button secondary" id="archive-button" type="button">
-                    Archive document
-                </button>
-                <button class="button primary" id="close-preview" type="button">
-                    Close
-                </button>
-            </div>
-        </dialog>
+        </main>
 
         <dialog id="details-dialog" aria-labelledby="details-title">
             <h2 id="details-title">
@@ -252,6 +248,8 @@
             </form>
         </dialog>
 
+        <script src="../record/data.js"></script>
+        <script src="../record/document-files.js"></script>
         <script src="script.js">
         </script>
         <script src="../auth/vendor/supabase-2.49.8.js"></script>

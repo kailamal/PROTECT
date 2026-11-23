@@ -15,5 +15,8 @@ window.ProtectStore = (() => {
         try { sessionStorage.setItem(key, JSON.stringify(records)); return true; }
         catch (error) { return false; }
     }
-    return { load, save };
+    function caseStatus(record) {
+        return record.archived ? 'Terminated' : record.status;
+    }
+    return { load, save, caseStatus };
 })();

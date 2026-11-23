@@ -204,27 +204,32 @@
                         <dt>Category</dt>
                         <dd>Case note</dd>
                     </dl>
+                    <label class="upload-sender" for="document-sender">
+                        Sender
+                        <input id="document-sender" type="text" maxlength="150" autocomplete="name" required>
+                    </label>
                     <div class="upload-actions">
                         <button class="button secondary" id="cancel-upload" type="button">Cancel</button>
                         <button class="button primary" id="attach-document" type="button" hidden>Upload</button>
                     </div>
                 </div>
             </section>
-        </main>
-
-        <dialog id="edit-dialog" aria-labelledby="edit-title">
-            <form id="edit-form">
-                <h2 id="edit-title">
+            <form class="case-edit" id="edit-form" aria-labelledby="edit-title" hidden>
+                <h1 id="edit-title" tabindex="-1">
                     Edit case overview
-                </h2>
-                <p class="dialog-note">
-                    Changes are saved in this browser tab.
+                </h1>
+                <p class="case-edit-note">
+                    PI = Probation Investigation · PS = Probation Supervision · Criminal Case No. stays separate.
                 </p>
                 <div class="edit-fields" id="edit-fields">
                 </div>
+                <details class="case-edit-additional">
+                    <summary>Additional case details</summary>
+                    <div class="edit-fields" id="edit-additional-fields"></div>
+                </details>
                 <p id="edit-error" role="alert" class="missing-note">
                 </p>
-                <div class="dialog-actions">
+                <div class="case-edit-actions">
                     <button class="button secondary" id="cancel-edit" type="button">
                         Cancel
                     </button>
@@ -233,7 +238,7 @@
                     </button>
                 </div>
             </form>
-        </dialog>
+        </main>
 
         <dialog id="confirm-dialog" aria-labelledby="confirm-title">
             <h2 id="confirm-title">
@@ -254,6 +259,7 @@
 
         <script src="../data.js">
         </script>
+        <script src="../document-files.js"></script>
         <script src="script.js">
         </script>
         <script src="../../auth/vendor/supabase-2.49.8.js"></script>

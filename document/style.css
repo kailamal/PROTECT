@@ -824,6 +824,8 @@ dialog p {
     color: var(--ink);
     font-size: 17px;
     text-align: left;
+    text-decoration: none;
+    overflow-wrap: anywhere;
 }
 
 .document-button:hover {
@@ -840,74 +842,6 @@ dialog p {
 .client-link:hover {
     color: var(--red);
     text-decoration: underline;
-}
-
-.preview-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.preview-header h2 {
-    font-size: 22px;
-    overflow-wrap: anywhere;
-    margin-bottom: 5px;
-}
-
-.preview-header p {
-    margin: 0;
-    font-size: 14px;
-    color: var(--muted);
-}
-
-.file-icon {
-    display: grid;
-    place-items: center;
-    width: 54px;
-    height: 65px;
-    flex-shrink: 0;
-    border: 1px solid #edc6c9;
-    border-radius: 8px;
-    color: var(--red);
-    background: #fff0e9;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-#preview-details {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 12px;
-    margin: 26px 0;
-    font-size: 15px;
-}
-
-#preview-details dt {
-    color: var(--muted);
-}
-
-#preview-details dd {
-    margin: 0;
-}
-
-.preview-placeholder {
-    padding: 30px 24px;
-    border: 1px dashed #d9dce1;
-    border-radius: 10px;
-    background: #fafafa;
-    text-align: center;
-    margin-bottom: 22px;
-}
-
-.preview-placeholder p {
-    font-size: 14px;
-    color: var(--muted);
-}
-
-.case-link {
-    color: var(--red);
-    font-size: 15px;
-    font-weight: 600;
 }
 
 @media (max-width: 650px) {
@@ -927,5 +861,149 @@ dialog p {
 
     .table-hint {
         font-size: 13px;
+    }
+}
+.document-detail {
+    padding-top: clamp(24px, 5.5vw, 66px);
+    overflow-wrap: anywhere;
+}
+
+.document-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.document-detail-header h1,
+.document-preview-sheet h2 {
+    margin: 0;
+    color: var(--red);
+    font-size: clamp(23px, 2.3vw, 29px);
+}
+
+.document-detail-header .button {
+    min-width: 150px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.document-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.document-preview-panel {
+    padding: 22px clamp(12px, 6.3vw, 78px);
+    border: 1px solid #e8e3df;
+    border-radius: 11px;
+    background: #fcf8f2;
+}
+
+.document-preview-sheet,
+.document-file-card {
+    border: 1px solid #e8e3df;
+    border-top: 2px solid var(--orange);
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 4px 12px #57301109;
+}
+
+.document-preview-sheet {
+    min-height: 470px;
+    padding: 23px clamp(16px, 2.7vw, 34px);
+    color: var(--red);
+}
+
+.document-preview-label {
+    margin: 0 0 22px;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+#preview-client {
+    margin: 8px 0 0;
+}
+
+.document-preview-sheet h3 {
+    margin: 20px 0 16px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e3df;
+    font-size: 15px;
+}
+
+#preview-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 20px 12px;
+    margin: 0;
+    font-size: 13px;
+}
+
+#preview-details dt,
+.document-case-label {
+    color: var(--muted);
+}
+
+#preview-details dd {
+    margin: 0;
+}
+
+.document-detail-sidebar {
+    display: grid;
+    gap: 20px;
+}
+
+.document-file-card,
+.document-archive-card {
+    padding: 18px;
+}
+
+.document-file-card {
+    min-height: 240px;
+}
+
+.document-detail-sidebar h2 {
+    margin: 0 0 8px;
+    color: var(--red);
+    font-size: 16px;
+}
+
+.document-case-label {
+    margin: 20px 0 4px;
+    font-size: 12px;
+}
+
+.document-file-card .button {
+    margin-top: 16px;
+}
+
+.document-archive-card {
+    border-radius: 8px;
+    background: #f8f7f7;
+}
+
+.document-archive-card p {
+    margin: 0;
+    color: #596780;
+    font-size: 13px;
+}
+
+#preview-feedback:empty {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .document-detail-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .document-preview-sheet {
+        min-height: 350px;
     }
 }

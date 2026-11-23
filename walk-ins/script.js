@@ -1,7 +1,6 @@
 'use strict';
 
 const byId = id => document.getElementById(id);
-const visits = [];
 const followUps = [];
 let selectedFollowUp = null;
 
@@ -21,7 +20,7 @@ function showVisit(visit) {
     byId('visit-title').textContent = visit.name;
     byId('visit-details').replaceChildren();
     [['Time', visit.time], ['Date', formatDate(visit.date)], ['Purpose', visit.purpose],
-        ['Case ID', visit.caseId || 'No matching sample case']].forEach(([label, value]) => {
+        ['Case ID', visit.caseId || 'No linked case']].forEach(([label, value]) => {
         const dt = document.createElement('dt');
         const dd = document.createElement('dd');
         dt.textContent = label;
@@ -40,7 +39,19 @@ function showVisit(visit) {
 }
 
 function renderVisits() {
+    const visits = ProtectStore.load()
+        .filter(record => record.date)
+        .map(record => ({
+            name: record.client,
+            caseId: record.caseId,
+            date: record.date,
+            time: '\u2014',
+            purpose: 'Case registration'
+        }))
+        .sort((a, b) => b.date.localeCompare(a.date));
+    byId('walk-in-count').textContent = `${visits.length} ${visits.length === 1 ? 'visit' : 'visits'} recorded`;
     byId('walk-in-body').replaceChildren();
+    if (!visits.length) emptyRow('walk-in-body', 4, 'No walk-ins recorded.');
     visits.forEach(visit => {
         const tr = document.createElement('tr');
         const td = document.createElement('td');
@@ -112,7 +123,7 @@ document.querySelectorAll('[data-section]').forEach(button => {
     });
 });
 
-renderVisits();
+window.addEventListener('pageshow', renderVisits);
 renderFollowUps();
 
 function emptyRow(id, columns, text) {
@@ -123,5 +134,4 @@ function emptyRow(id, columns, text) {
     row.append(td);
     byId(id).append(row);
 }
-if (!visits.length) emptyRow('walk-in-body', 4, 'No visits scheduled.');
 if (!followUps.length) emptyRow('follow-up-body', 4, 'No follow-ups awaiting review.');

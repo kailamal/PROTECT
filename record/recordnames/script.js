@@ -7,11 +7,12 @@ const client = caseId ? records.find(record => record.caseId === caseId) : recor
 const fields = [
     ['No.', 'number'], ['Name', 'client'], ['PPA Docket No.', 'docket'],
     ['Court', 'court'], ['Criminal Case No.', 'criminalCase'], ['Offense', 'offense'],
-    ['Rehab Type', 'rehab'], ['Supervision', 'supervision'], ['Case ID', 'caseId'],
-    ['Assigned Officer', 'officer'], ['Next Walk-in', 'date'], ['Case Status', 'status'],
+    ['Rehab Type', 'rehab'], ['Supervision', 'supervision'], ['Category', 'category'], ['Case ID', 'caseId'],
+    ['Assigned Officer', 'officer'], ['Walk-in', 'date'], ['Case Status', 'status'],
     ['Date Received', 'received'], ['Date Granted', 'granted'], ['Term', 'term'],
     ['Contact Number', 'contact'], ['Residential Area', 'area'], ['Remarks', 'remarks'],
-    ['Age', 'age'], ['Sex', 'sex'], ['Occupation', 'occupation'], ['Educational Attainment', 'education']
+    ['Age', 'age'], ['Sex', 'sex'], ['Occupation', 'occupation'], ['Educational Attainment', 'education'],
+    ['Complied', 'complied'], ['Start', 'start'], ['End', 'end']
 ];
 let revealed = false;
 
@@ -66,8 +67,10 @@ function render() {
         th.textContent = label;
         const td = document.createElement('td');
         let value = key === 'number' ? records.indexOf(client) + 1 : client[key];
+        if (key === 'status') value = ProtectStore.caseStatus(client);
         if (key === 'contact' && value && !revealed) value = `\u2022\u2022\u2022\u2022 ${value.slice(-4)}`;
-        if (['date', 'received', 'granted'].includes(key) && value) value = labelDate(value);
+        if (['date', 'received', 'granted', 'start', 'end'].includes(key) && value) value = labelDate(value);
+        if (!value && ['start', 'end'].includes(key)) value = client[`${key}Status`];
         td.textContent = value || '\u2014';
         byId('case-headings').append(th);
         byId('case-values').append(td);
@@ -84,9 +87,9 @@ function render() {
     entries.slice(0, 5).forEach(entry => history.append(historyEntry(entry.date, entry.title, entry.detail)));
 }
 
-function addEvent(title) {
-    client.history = client.history || [];
-    client.history.unshift({
+function addEvent(title, record = client) {
+    record.history = record.history || [];
+    record.history.unshift({
         date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'Asia/Manila' }),
         title
     });
@@ -104,13 +107,26 @@ if (!client) {
     client.lastViewed = Date.now();
     ProtectStore.save(records);
 
-    const editable = fields.filter(([, key]) => !['number', 'caseId', 'officer'].includes(key));
-    editable.forEach(([label, key]) => {
+    const overviewFields = [
+        ['Name', 'client'], ['PPA Docket No. (PI / PS)', 'docket'], ['Court', 'court'],
+        ['Criminal Case No.', 'criminalCase'], ['Offense', 'offense'], ['Rehab Type (OUT/IN)', 'rehab'],
+        ['Complied yes or No', 'complied'], ['Start', 'start'], ['End', 'end'],
+        ['Address', 'area'], ['Occupation', 'occupation'], ['Educational Attainment', 'education'],
+        ['Age', 'age'], ['SEX', 'sex'], ['Mobile No.', 'contact'],
+        ['Remarks', 'remarks'], ['Officer-in-Charge', 'officer'], ['Category', 'category']
+    ];
+    const additionalFields = fields.filter(([, key]) =>
+        !['number', 'caseId'].includes(key) && !overviewFields.some(([, overviewKey]) => overviewKey === key)
+    );
+    const editForm = byId('edit-form');
+    function appendEditField(container, [label, key]) {
         const wrapper = document.createElement('label');
         wrapper.textContent = label;
         const options = {
+            complied: ['', 'Yes', 'No'],
+            category: ['', 'Probation Integration', 'Probation Supervision'],
             supervision: ['Probation', 'Parole'],
-            status: ['Absconding probationer', 'Active Supervision', 'Under Investigation']
+            status: ['', 'Absconding probationer', 'Active Supervision', 'Under Investigation']
         };
         if (key === 'status' && client.status && !options.status.includes(client.status)) {
             options.status.push(client.status);
@@ -121,12 +137,14 @@ if (!client) {
             options[key].forEach(value => {
                 const option = document.createElement('option');
                 option.value = value;
-                option.textContent = value;
+                const emptyLabels = { status: 'No status', category: 'Select Category' };
+                option.textContent = value || emptyLabels[key] || '\u2014';
                 input.append(option);
             });
         } else {
-            input.type = ['date', 'received', 'granted'].includes(key) ? 'date' : key === 'contact' ? 'tel' : 'text';
+            input.type = ['date', 'received', 'granted', 'start', 'end'].includes(key) ? 'date' : key === 'contact' ? 'tel' : 'text';
             input.maxLength = 160;
+            input.placeholder = '\u2014';
             if (key === 'age') {
                 input.type = 'number';
                 input.min = '0';
@@ -134,32 +152,62 @@ if (!client) {
             }
         }
         input.required = ['client', 'date'].includes(key);
+        input.readOnly = key === 'officer';
         wrapper.append(input);
-        byId('edit-fields').append(wrapper);
-    });
+        container.append(wrapper);
+    }
+    overviewFields.forEach(field => appendEditField(byId('edit-fields'), field));
+    additionalFields.forEach(field => appendEditField(byId('edit-additional-fields'), field));
+    const editFields = [...overviewFields, ...additionalFields];
+    function closeEditor() {
+        editForm.hidden = true;
+        byId('case-content').hidden = false;
+        byId('edit-button').focus();
+    }
     byId('edit-button').addEventListener('click', () => {
-        editable.forEach(([, key]) => { byId('edit-form').elements.namedItem(key).value = client[key] || ''; });
+        editFields.forEach(([, key]) => { editForm.elements.namedItem(key).value = client[key] ?? ''; });
+        const contact = editForm.elements.namedItem('contact');
+        if (!revealed && client.contact) contact.value = '';
+        contact.placeholder = !revealed && client.contact ? `\u2022\u2022\u2022\u2022 \u2022\u2022\u2022 ${client.contact.slice(-4)}` : '\u2014';
+        editForm.querySelector('details').open = false;
         byId('edit-error').textContent = '';
-        byId('edit-dialog').showModal();
+        byId('case-content').hidden = true;
+        editForm.hidden = false;
+        byId('edit-title').focus();
     });
-    byId('cancel-edit').addEventListener('click', () => byId('edit-dialog').close());
-    byId('edit-form').addEventListener('submit', event => {
+    byId('cancel-edit').addEventListener('click', closeEditor);
+    editForm.addEventListener('invalid', event => {
+        const details = event.target.closest('details');
+        if (details) details.open = true;
+    }, true);
+    editForm.addEventListener('submit', event => {
         event.preventDefault();
         const values = new FormData(event.currentTarget);
         if (!String(values.get('client')).trim()) {
             byId('edit-error').textContent = 'Enter a client name.';
             return;
         }
-        editable.forEach(([, key]) => { client[key] = String(values.get(key)).trim(); });
-        addEvent('Case overview updated');
-        persist();
-        byId('edit-dialog').close();
+        const updated = { ...client, history: [...(client.history || [])] };
+        editFields.forEach(([, key]) => {
+            const value = String(values.get(key)).trim();
+            if (key === 'officer' || (key === 'contact' && !revealed && !value)) return;
+            updated[key] = value;
+            if (value && ['start', 'end'].includes(key)) updated[`${key}Status`] = '';
+        });
+        addEvent('Case overview updated', updated);
+        if (!ProtectStore.save(records.map(record => record === client ? updated : record))) {
+            byId('edit-error').textContent = 'Browser storage is unavailable. Your changes could not be saved.';
+            return;
+        }
+        Object.assign(client, updated);
+        byId('feedback').textContent = 'Changes saved for this browser tab.';
+        closeEditor();
         render();
     });
     byId('reveal-button').addEventListener('click', () => { revealed = !revealed; render(); });
     byId('archive-button').addEventListener('click', () => {
         client.archived = !client.archived;
-        addEvent(client.archived ? 'Case archived' : 'Case restored');
+        addEvent(client.archived ? 'Case terminated' : 'Case restored');
         persist();
         render();
     });
@@ -167,14 +215,18 @@ if (!client) {
     byId('cancel-delete').addEventListener('click', () => byId('confirm-dialog').close());
     byId('confirm-delete').addEventListener('click', () => {
         const remaining = records.filter(record => record.caseId !== client.caseId);
-        if (ProtectStore.save(remaining)) location.href = '../record.html?deleted=1';
-        else {
+        if (ProtectStore.save(remaining)) {
+            const files = client.documents || [];
+            Promise.allSettled(files.map(file => ProtectDocumentFiles.remove(file.id)))
+                .then(() => { location.href = '../record.html?deleted=1'; });
+        } else {
             byId('confirm-dialog').close();
             byId('feedback').textContent = 'Browser storage is unavailable. The case could not be deleted.';
         }
     });
     const tabs = document.querySelectorAll('[data-tab]');
     const fileInput = byId('document-file');
+    const senderInput = byId('document-sender');
     const selection = byId('upload-selection');
     const fileList = byId('case-document-files');
     const fileSizes = new Intl.NumberFormat('en', { maximumFractionDigits: 1 });
@@ -190,6 +242,8 @@ if (!client) {
     }
 
     function openUpload() {
+        const user = window.ProtectCurrentUser;
+        senderInput.value = user?.user_metadata?.full_name || user?.email || '';
         setCaseTab('documents');
         byId('case-content').hidden = true;
         byId('upload-panel').hidden = false;
@@ -255,21 +309,77 @@ if (!client) {
         byId('remove-document').focus();
     });
 
-    byId('attach-document').addEventListener('click', () => {
-        if (!selectedFile) return;
-        const item = document.createElement('li');
-        const link = document.createElement('a');
-        link.className = 'text-button';
-        link.download = selectedFile.name;
-        link.textContent = selectedFile.name;
-        link.href = URL.createObjectURL(selectedFile);
-        item.append(link);
-        fileList.append(item);
-        fileList.hidden = false;
-        byId('case-documents-empty').hidden = true;
-        byId('document-total').textContent = fileList.childElementCount;
+    function renderDocuments() {
+        const entries = client.documents || [];
+        fileList.replaceChildren();
+        entries.forEach(entry => {
+            const item = document.createElement('li');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'text-button';
+            button.textContent = entry.name;
+            button.addEventListener('click', async () => {
+                try {
+                    await ProtectDocumentFiles.download(entry);
+                } catch {
+                    byId('case-document-status').textContent = 'The file could not be downloaded.';
+                }
+            });
+            item.append(button);
+            fileList.append(item);
+        });
+        fileList.hidden = entries.length === 0;
+        byId('case-documents-empty').hidden = entries.length > 0;
+        byId('document-total').textContent = entries.length;
+    }
+
+    const uploadButton = byId('attach-document');
+    uploadButton.addEventListener('click', async () => {
+        if (!selectedFile || uploadButton.disabled) return;
+        const sender = senderInput.value.trim();
+        senderInput.value = sender;
+        if (!senderInput.reportValidity()) return;
+        const file = selectedFile;
+        const [type, size] = byId('selected-document-details').textContent.split(' \u00b7 ');
+        let id;
+        const controls = [uploadButton, senderInput, byId('remove-document'), byId('cancel-upload'), byId('back-to-documents')];
+        controls.forEach(control => { control.disabled = true; });
+        selection.textContent = 'Uploading…';
+        try {
+            id = await ProtectDocumentFiles.save(file);
+            const entry = {
+                id, name: file.name, sender, type, size, category: 'Case note', version: 1,
+                updated: new Date().toISOString(), archived: false
+            };
+            const currentRecords = ProtectStore.load();
+            const currentCase = currentRecords.find(record => record.caseId === client.caseId);
+            if (!currentCase) throw new Error('Case unavailable');
+            currentCase.documents = [entry, ...(currentCase.documents || [])];
+            if (!ProtectStore.save(currentRecords)) throw new Error('Case could not be saved');
+            client.documents = currentCase.documents;
+        } catch {
+            if (id !== undefined) ProtectDocumentFiles.remove(id).catch(() => {});
+            selection.textContent = 'The document could not be saved. Try uploading it again.';
+            return;
+        } finally {
+            controls.forEach(control => { control.disabled = false; });
+        }
         closeUpload();
-        byId('case-document-status').textContent = 'File attached for this visit. Download it before leaving or refreshing this page.';
+        location.href = `../../document/document.html?file=${encodeURIComponent(id)}`;
     });
+    window.addEventListener('pageshow', event => {
+        if (!event.persisted) return;
+        const latest = ProtectStore.load();
+        const currentCase = latest.find(record => record.caseId === client.caseId);
+        if (!currentCase) {
+            location.reload();
+            return;
+        }
+        Object.assign(client, currentCase);
+        records.splice(0, records.length, ...latest.map(record => record === currentCase ? client : record));
+        renderDocuments();
+        render();
+    });
+    renderDocuments();
     render();
 }

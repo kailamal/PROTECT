@@ -126,9 +126,7 @@
                     <h2 id="log-title">
                         Walk-in log
                     </h2>
-                    <p>
-                        No visits scheduled
-                    </p>
+                    <p id="walk-in-count" aria-live="polite"></p>
                 </header>
 
                 <div class="table-scroll">
@@ -267,6 +265,7 @@
             </form>
         </dialog>
 
+        <script src="../record/data.js"></script>
         <script src="script.js">
         </script>
         <script src="../auth/vendor/supabase-2.49.8.js"></script>

@@ -6,6 +6,7 @@
         <title>
             Records | P.R.O.T.E.C.T
         </title>
+        <link rel="stylesheet" href="vendor/intl-tel-input/build/css/intlTelInput.min.css">
         <link rel="stylesheet" href="style.css">
         <style>html.auth-pending body { visibility: hidden; }</style>
         <script>document.documentElement.classList.add('auth-pending');</script>
@@ -101,17 +102,19 @@
                             0
                         </span>
                     </button>
-                    <button class="tab" type="button" data-view="recent" aria-pressed="false">
-                        Recently viewed
-                    </button>
+                    <select class="tab" id="category-filter" aria-label="Select Category">
+                        <option value="">Select Category</option>
+                        <option>Probation Supervision</option>
+                        <option>Probation Integration</option>
+                    </select>
                 </nav>
 
                 <section aria-label="Search and filter records" class="filters">
                     <label class="search">
                         <span class="sr-only">
-                            Search name or case ID
+                            Search name or PPA docket no.
                         </span>
-                        <input id="search" type="search" placeholder="Search name or case ID">
+                        <input id="search" type="search" placeholder="Search name or PPA docket no.">
                     </label>
                     <label>
                         <span class="sr-only">
@@ -135,13 +138,10 @@
                             <option>Absconding probationer</option>
                             <option>Active Supervision</option>
                             <option>Under Investigation</option>
-                            <optgroup label="Previous statuses">
-                                <option>Follow-up</option>
-                                <option>Review due</option>
-                                <option>Compliant</option>
-                            </optgroup>
+                            <option>Terminated</option>
                         </select>
                     </label>
+                    <button type="button" class="button secondary" id="status-guide">Status guide</button>
                 </section>
 
                 <div class="record-results">
@@ -159,7 +159,7 @@
                                         Assigned officer
                                     </th>
                                     <th scope="col">
-                                        Next walk-in
+                                        Walk-in
                                     </th>
                                     <th scope="col">
                                         Case status
@@ -203,8 +203,8 @@
                 <p class="wizard-intro">Create an individual case record &middot; Required information is reviewed before saving.</p>
 
                 <ol class="wizard-steps" aria-label="Record creation steps">
-                    <li aria-current="step">1&nbsp; Personal details</li>
-                    <li>2&nbsp; Case &amp; supervision</li>
+                    <li aria-current="step"><span class="step-number">1&nbsp; </span>Personal details</li>
+                    <li><span class="step-number">2&nbsp; </span>Case &amp; supervision</li>
                     <li>3&nbsp; Review &amp; create</li>
                 </ol>
 
@@ -219,7 +219,11 @@
                                 <input name="age" type="number" min="0" max="130">
                             </label>
                             <label>Sex
-                                <input name="sex" maxlength="40">
+                                <select name="sex">
+                                    <option value="">Select sex</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                </select>
                             </label>
                             <label>Address
                                 <input name="area" maxlength="160">
@@ -230,9 +234,11 @@
                             <label>Educational Attainment
                                 <input name="education" maxlength="100">
                             </label>
-                            <label>Mobile No.
-                                <input name="contact" type="tel" maxlength="40">
-                            </label>
+                            <div class="mobile-number">
+                                <label for="mobile-contact">Mobile No.</label>
+                                <input id="mobile-contact" name="contact" type="tel" maxlength="40"
+                                    autocomplete="tel-national" placeholder="912 345 6789">
+                            </div>
                             <div class="photo-panel">
                                 <div class="photo-avatar" aria-hidden="true">
                                     <span id="photo-initials">&mdash;</span>
@@ -252,12 +258,18 @@
                     <section class="wizard-panel" data-record-step aria-labelledby="case-title" hidden>
                         <h2 id="case-title" tabindex="-1">Case &amp; supervision</h2>
                         <div class="wizard-grid">
-                            <label>Case ID
-                                <input name="caseId" required maxlength="40" autocomplete="off">
-                            </label>
-                            <label>PPA docket no.
-                                <input name="docket" maxlength="160">
-                            </label>
+                            <div>
+                                <label for="docket-number">PPA Docket No. (PI / PS)</label>
+                                <div class="paired-fields">
+                                    <select name="category" required aria-label="Docket prefix and category" aria-describedby="docket-prefix-help">
+                                        <option value="">PI / PS</option>
+                                        <option value="Probation Integration">PI</option>
+                                        <option value="Probation Supervision">PS</option>
+                                    </select>
+                                    <input id="docket-number" name="docket" maxlength="40" placeholder="Docket number">
+                                </div>
+                                <small id="docket-prefix-help">PI = Probation Integration · PS = Probation Supervision</small>
+                            </div>
                             <label>Court
                                 <input name="court" maxlength="160">
                             </label>
@@ -265,7 +277,80 @@
                                 <input name="criminalCase" maxlength="160">
                             </label>
                             <label>Offense
-                                <input name="offense" maxlength="160">
+                                <input name="offense" list="offense-options" maxlength="160"
+                                    placeholder="Select or enter an offense">
+                            </label>
+                            <datalist id="offense-options">
+                                <option value="For court verification">
+                                <option value="Revised Penal Code (Act No. 3815)">
+                                <option value="Batas Pambansa Blg. 22 — Bouncing Checks Law">
+                                <option value="RA 4136 — Land Transportation and Traffic Code">
+                                <option value="RA 7610 — Special Protection of Children Against Abuse, Exploitation and Discrimination Act">
+                                <option value="RA 7832 — Anti-Electricity and Electric Transmission Lines/Materials Pilferage Act">
+                                <option value="RA 8484 — Access Devices Regulation Act">
+                                <option value="RA 8749 — Philippine Clean Air Act">
+                                <option value="RA 8792 — Electronic Commerce Act">
+                                <option value="RA 9003 — Ecological Solid Waste Management Act">
+                                <option value="RA 9165 — Comprehensive Dangerous Drugs Act">
+                                <option value="RA 9262 — Anti-Violence Against Women and Their Children Act">
+                                <option value="RA 10173 — Data Privacy Act">
+                                <option value="RA 10175 — Cybercrime Prevention Act">
+                                <option value="RA 10586 — Anti-Drunk and Drugged Driving Act">
+                                <option value="RA 10591 — Comprehensive Firearms and Ammunition Regulation Act">
+                                <option value="RA 10883 — New Anti-Carnapping Act">
+                                <option value="RA 10913 — Anti-Distracted Driving Act">
+                                <option value="RA 11313 — Safe Spaces Act">
+                                <option value="RA 11934 — SIM Registration Act">
+                                <option value="RA 3019 — Anti-Graft and Corrupt Practices Act">
+                                <option value="RA 6713 — Code of Conduct and Ethical Standards for Public Officials and Employees">
+                                <option value="RA 8049, as amended by RA 11053 — Anti-Hazing Act">
+                                <option value="RA 9147 — Wildlife Resources Conservation and Protection Act">
+                                <option value="RA 9208, as amended — Anti-Trafficking in Persons Act">
+                                <option value="RA 9287 — Illegal Numbers Games">
+                                <option value="RA 9995 — Anti-Photo and Video Voyeurism Act">
+                                <option value="RA 11235 — Motorcycle Crime Prevention Act">
+                                <option value="RA 11930 — Anti-OSAEC and Anti-CSAEM Act">
+                            </datalist>
+                            <label>Rehab Type (OUT/IN)
+                                <select name="rehab">
+                                    <option value="">Select rehab type</option>
+                                    <option>OUT</option>
+                                    <option>IN</option>
+                                </select>
+                            </label>
+                            <label>Complied
+                                <select name="complied">
+                                    <option value="">Select compliance</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </label>
+                            <div>
+                                <label for="supervision-start">Supervision start</label>
+                                <div class="paired-fields">
+                                    <select name="startStatus" aria-label="Supervision start status">
+                                        <option value="">Select status</option>
+                                        <option>Awaiting court order</option>
+                                    </select>
+                                    <input id="supervision-start" name="start" type="date">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="supervision-end">Supervision end</label>
+                                <div class="paired-fields">
+                                    <select name="endStatus" aria-label="Supervision end status">
+                                        <option value="">Select status</option>
+                                        <option>Not yet applicable</option>
+                                        <option>Awaiting court order</option>
+                                    </select>
+                                    <input id="supervision-end" name="end" type="date">
+                                </div>
+                            </div>
+                            <label>Officer-in-Charge
+                                <input id="case-officer" readonly>
+                            </label>
+                            <label>Remarks
+                                <input name="remarks" maxlength="160">
                             </label>
                             <label>Supervision
                                 <select name="supervision" required>
@@ -274,23 +359,24 @@
                                     <option>Parole</option>
                                 </select>
                             </label>
-                            <label>Next walk-in
+                            <label>Walk-in
                                 <input name="date" type="date" required>
-                            </label>
-                            <label>Case status
-                                <select name="status" required>
-                                    <option value="">Select case status</option>
-                                    <option>Absconding probationer</option>
-                                    <option>Active Supervision</option>
-                                    <option>Under Investigation</option>
-                                </select>
                             </label>
                         </div>
                     </section>
 
                     <section class="wizard-panel" data-record-step aria-labelledby="review-title" hidden>
-                        <h2 id="review-title" tabindex="-1">Review &amp; create</h2>
-                        <dl class="wizard-grid review-grid" id="record-review"></dl>
+                        <h2 id="review-title" tabindex="-1">Review the new record</h2>
+                        <div class="review-cards">
+                            <section class="review-card" aria-labelledby="review-personal-title">
+                                <h3 id="review-personal-title">Personal details</h3>
+                                <dl id="review-personal"></dl>
+                            </section>
+                            <section class="review-card" aria-labelledby="review-case-title">
+                                <h3 id="review-case-title">Case &amp; supervision</h3>
+                                <dl id="review-case"></dl>
+                            </section>
+                        </div>
                     </section>
 
                     <footer class="wizard-footer">
@@ -321,6 +407,7 @@
         </dialog>
 
         <script src="data.js"></script>
+        <script src="vendor/intl-tel-input/build/js/intlTelInputWithUtils.min.js"></script>
         <script src="script.js">
         </script>
         <script src="../auth/vendor/supabase-2.49.8.js"></script>
