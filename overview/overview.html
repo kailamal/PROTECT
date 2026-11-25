@@ -8,7 +8,7 @@
         <title>
             Overview | P.R.O.T.E.C.T
         </title>
-        <link rel="stylesheet" href="style.css?v=empty-overview-1">
+        <link rel="stylesheet" href="style.css?v=empty-overview-2">
         <style>html.auth-pending body { visibility: hidden; }</style>
         <script>document.documentElement.classList.add('auth-pending');</script>
     </head>
@@ -116,7 +116,7 @@
                     <h2>
                         Appointments today
                     </h2>
-                    <p class="stat-number blue">
+                    <p class="stat-number blue" id="appointment-count">
                         &mdash;
                     </p>
                     <p class="stat-description">
@@ -174,15 +174,15 @@
                         <h2 id="appointments-title">
                             Today's appointments
                         </h2>
-                        <span class="completion-badge">No appointments loaded</span>
+                        <span class="completion-badge" id="appointment-completion" role="status">Loading appointments</span>
                     </div>
                     <div class="progress-list">
                         <div class="progress-row completed">
                             <span>
                                 Completed
                             </span>
-                            <progress value="0" max="1" aria-label="No appointments">0</progress>
-                            <strong>&mdash;</strong>
+                            <progress id="completed-progress" value="0" max="1" aria-label="Completed appointments">0</progress>
+                            <strong id="completed-count">&mdash;</strong>
                         </div>
                         <div class="progress-row checked-in">
                             <span>
@@ -199,20 +199,6 @@
                             <strong>&mdash;</strong>
                         </div>
                     </div>
-                </section>
-
-                <section class="card upcoming" aria-labelledby="upcoming-title">
-                    <div class="card-header">
-                        <h2 id="upcoming-title">
-                            Up next today
-                        </h2>
-                        <button class="text-button" type="button" id="schedule-button">
-                            Schedule &rarr;
-                        </button>
-                    </div>
-                    <ol class="schedule-list">
-                        <li>No appointments loaded.</li>
-                    </ol>
                 </section>
 
                 <section class="card attention" aria-labelledby="attention-title">
@@ -249,19 +235,7 @@
                     </div>
                 </section>
 
-                <section class="card activity" aria-labelledby="activity-title">
-                    <h2 id="activity-title">
-                        Recent activity
-                    </h2>
-                    <ol class="activity-list">
-                        <li>No activity loaded.</li>
-                    </ol>
-                </section>
-
             </div>
-            <p class="date-note" id="date-note" role="status">
-            </p>
-                    <p style="font-size:14px;color:#716d6d;line-height:1.5;margin:20px 0;">No database data loaded. Supabase authentication is connected; dashboard data integration is pending.</p>
 </main>
 
         <dialog id="details-dialog" aria-labelledby="dialog-title">
@@ -275,7 +249,8 @@
                 </button>
             </form>
         </dialog>
-        <script src="script.js?v=empty-overview-1">
+        <script src="../record/data.js"></script>
+        <script src="script.js?v=appointments-1">
         </script>
         <script src="../auth/vendor/supabase-2.49.8.js"></script>
         <script src="../auth/config.js"></script>

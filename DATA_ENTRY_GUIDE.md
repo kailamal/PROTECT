@@ -4,7 +4,7 @@
 
 Supabase email/password authentication is wired into the website. The dashboard pages do not yet query database tables. All preloaded sample rows and figures have been removed. Zero cards mean no data is loaded into the page, not a verified count from your Supabase project.
 
-Records > New record and the client edit form currently use browser-tab storage only. They are not Supabase inserts. Documents has no real upload form yet. Walk-ins has no real scheduling form yet. Access & audit has no server-side administration yet. Adding rows in Supabase will not automatically populate these pages until database queries are implemented.
+Records > New record and the client edit form currently use browser-tab storage only. They are not Supabase inserts. Documents has no real upload form yet. Access & audit has no server-side administration yet. Adding rows in Supabase will not automatically populate these pages until database queries are implemented.
 
 No remote database rows, Supabase users, or stored files were deleted by this cleanup. The obsolete local seeded-record cache is discarded. New browser-entered records use a separate cache key.
 
@@ -26,9 +26,9 @@ No remote database rows, Supabase users, or stored files were deleted by this cl
 | --- | --- | --- |
 | officials | Auth user ID, name, role, active status | Access & audit, assigned officers |
 | cases | Case ID, client name, assigned officer, supervision, status, dates, contact/location fields | Records, client details, Analytics |
-| appointments | Linked case, date/time, purpose, arrival/completion status | Walk-ins and Overview |
+| appointments | Linked case, date/time, purpose, arrival/completion status | Overview |
 | documents | Linked case, document title/category, private storage path, version, timestamps | Documents and client Documents tab |
-| follow_ups | Linked case/appointment, assigned officer, review status, review notes | Walk-ins queue, Overview attention list |
+| follow_ups | Linked case/appointment, assigned officer, review status, review notes | Overview attention list |
 | access_requests | Requesting user, requested access, reason, decision, reviewer | Access & audit |
 | audit_events | Actor, action, timestamp, reference, result | Access & audit and Overview activity |
 
@@ -63,7 +63,6 @@ Uploading a file alone does not create its metadata row. Creating metadata alone
 1. In the appointments table, insert the linked case, scheduled date/time, purpose, and status.
 2. Use explicit statuses such as scheduled, checked_in, completed, and missed; frontend and database must use the same values.
 3. For a missed appointment requiring attention, create a linked follow_ups row with its officer, reason, and review status.
-4. Once integrated, Walk-ins will load appointments and follow-ups; a scheduling/check-in form must write these changes to Supabase.
 
 ## Step 6: Populate Overview
 

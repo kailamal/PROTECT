@@ -55,7 +55,8 @@ form.addEventListener('submit', async event => {
         }
         if (!data.session) { message('No session was returned. Please try again.'); return; }
         password.value = '';
-        location.replace('../overview/overview.html');
+        const fromMobile = new URLSearchParams(location.search).get('app') === 'mobile';
+        location.replace(fromMobile ? '../mobileapp/mobile.html' : '../overview/overview.html');
     } catch (error) {
         message('Could not reach Supabase. Check your connection and project settings.');
     } finally {

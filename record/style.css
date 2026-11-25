@@ -444,13 +444,46 @@ dialog p {
 .paired-fields {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 8px;
+    align-items: center;
     margin-top: 6px;
+    border: 1px solid #cfd6e0;
+    border-radius: 11px;
+    background: #fff;
 }
 
-#docket-prefix-help {
-    display: block;
-    margin-top: 4px;
+.paired-fields:focus-within {
+    border-color: var(--red);
+}
+
+.wizard-grid .paired-fields > :is(input:not([type="file"]), select) {
+    height: calc(var(--dashboard-control-height) - 2px);
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.paired-fields > :is(input, select):focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: -3px;
+    border-radius: 10px;
+}
+
+.wizard-grid .paired-fields:not(.docket-field) > select {
+    border-inline-end: 1px solid #cfd6e0;
+    text-overflow: ellipsis;
+}
+
+.docket-field {
+    grid-template-columns: auto auto minmax(0, 1fr);
+}
+
+.docket-separator {
+    visibility: hidden;
+}
+
+.docket-field:has(select:valid) .docket-separator {
+    visibility: visible;
 }
 
 .photo-panel {

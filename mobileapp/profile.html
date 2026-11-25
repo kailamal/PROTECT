@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" class="auth-pending">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#a7192b">
+    <title>My profile | P.R.O.T.E.C.T.</title>
+    <link rel="icon" href="../signin/logo.png">
+    <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+    <main>
+        <header class="brand">
+            <img src="../signin/logo.png" alt="">
+            <h1>P.R.O.T.E.C.T.</h1>
+        </header>
+        <section class="session-status" aria-labelledby="session-title">
+            <h2 id="session-title">My profile</h2>
+            <p>Checking your sign-in.</p>
+            <a href="../signin/sign-in.html?app=mobile">Go to sign in</a>
+        </section>
+        <section class="walk-in-content mobile-profile" aria-labelledby="profile-title">
+            <a class="profile-back" href="mobile.html"><span aria-hidden="true">←</span> Back to Walk-ins</a>
+            <h2 id="profile-title">My profile</h2>
+            <dl class="profile-details">
+                <dt>Email address</dt>
+                <dd data-account-email></dd>
+                <dt>Session status</dt>
+                <dd>Signed in</dd>
+            </dl>
+            <button class="primary" id="edit-account" type="button" aria-expanded="false" aria-controls="account-form">Edit account</button>
+            <form id="account-form" hidden>
+                <label>Email address
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label>New password (optional)
+                    <input type="password" name="password" autocomplete="new-password" minlength="8">
+                </label>
+                <label>Confirm new password
+                    <input type="password" name="confirmation" autocomplete="new-password">
+                </label>
+                <div id="account-verification" hidden>
+                    <button type="button" id="send-account-code">Send verification code</button>
+                    <label>Verification code
+                        <input name="nonce" autocomplete="one-time-code" inputmode="numeric">
+                    </label>
+                </div>
+                <div class="account-actions">
+                    <button class="primary" type="submit">Save changes</button>
+                    <button type="button" id="cancel-account-edit">Cancel</button>
+                </div>
+            </form>
+            <p id="account-message" role="status"></p>
+            <p class="profile-error" data-sign-out-error role="alert"></p>
+            <button class="profile-sign-out" type="button" data-profile-sign-out>Sign out</button>
+        </section>
+    </main>
+    <script src="../auth/vendor/supabase-2.49.8.js"></script>
+    <script src="../auth/config.js"></script>
+    <script src="../auth/client.js"></script>
+    <script src="profile.js"></script>
+    <script src="../auth/guard.js"></script>
+</body>
+</html>

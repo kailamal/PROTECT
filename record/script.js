@@ -95,7 +95,7 @@ function render() {
             badge.textContent = status;
             statusCell.append(badge);
         }
-        row.append(clientCell, cell(record.supervision), cell(record.officer), cell(formatDate(record.date)), statusCell);
+        row.append(clientCell, cell(record.supervision), cell(record.officer), statusCell);
         tbody.append(row);
     });
 
@@ -325,7 +325,7 @@ function reviewRecord(record) {
     personal.push(['Profile photo', record.profilePhoto ? 'Attached' : 'Not added \u00b7 Optional']);
     const caseDetails = reviewEntries(wizardPanels[1], record);
     caseDetails.splice(1, 0, ['Category', record.category]);
-    caseDetails.push(['Officer-in-Charge', record.officer]);
+    caseDetails.push(['Supervising-in-Charge', record.officer]);
     renderReviewEntries(byId('review-personal'), personal);
     renderReviewEntries(byId('review-case'), caseDetails);
 }
@@ -367,6 +367,7 @@ recordForm.addEventListener('submit', event => {
         return;
     }
     record.caseId = crypto.randomUUID();
+    record.createdAt = new Date().toISOString();
     if (!ProtectStore.save([record, ...records])) {
         formError.textContent = 'Unable to save this record in the browser tab. Remove the photo and try again, or check browser storage.';
         return;
@@ -388,8 +389,8 @@ byId('export-button').addEventListener('click', () => {
         return `"${text.replaceAll('"', '""')}"`;
     };
     const rows = [
-        ['Client', 'Case ID', 'Supervision', 'Assigned officer', 'Walk-in', 'Case status'],
-        ...list.map(record => [record.client, record.caseId, record.supervision, record.officer, record.date, ProtectStore.caseStatus(record)])
+        ['Client', 'Case ID', 'Supervision', 'Assigned officer', 'Case status'],
+        ...list.map(record => [record.client, record.caseId, record.supervision, record.officer, ProtectStore.caseStatus(record)])
     ];
     const csv = rows.map(row => row.map(escapeCsv).join(',')).join('\r\n');
     const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));

@@ -1,0 +1,137 @@
+:root {
+    color-scheme: light;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--canvas);
+    --red: #a7192b;
+    --orange: #f57d26;
+    --ink: #36435b;
+    --muted: #756f70;
+    --border: #dce0e6;
+    --canvas: #fff7f1;
+    --tint: #fdf0e7;
+}
+.session-status { display: none; }
+html.auth-pending .session-status { display: block; }
+html.auth-pending .walk-in-content,
+html.auth-pending #add-dialog { display: none; }
+.session-status p { color: var(--muted); }
+.session-status a { color: var(--red); }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main {
+    width: min(100%, 480px);
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: max(28px, env(safe-area-inset-top)) 22px 32px;
+    background: #fff;
+}
+.brand { display: flex; align-items: center; gap: 12px; color: var(--red); font-size: 1.2rem; margin: 0 0 26px; padding-bottom: 12px; border-bottom: 4px solid var(--orange); }
+.brand img { width: 46px; height: 46px; object-fit: contain; }
+.brand h1 { margin: 0; font-size: inherit; }
+.profile-link, .profile-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--red);
+    font-size: .9rem;
+    font-weight: 650;
+}
+.profile-link { margin-left: auto; padding-inline: 12px; border-radius: 12px; background: var(--tint); text-decoration: none; }
+.profile-back { margin-bottom: 10px; }
+.profile-details { padding: 16px; margin: 16px 0; border: 1px solid var(--border); border-radius: 14px; background: var(--tint); }
+.profile-details dt { color: var(--muted); font-size: .875rem; }
+.profile-details dd { margin: 4px 0 14px; font-weight: 650; overflow-wrap: anywhere; }
+.profile-details dd:last-child { margin-bottom: 0; }
+.profile-error { color: var(--red); }
+.profile-error:empty { display: none; }
+.mobile-profile .primary { width: 100%; }
+.profile-sign-out { width: 100%; margin-top: 12px; }
+#account-form:not([hidden]) { display: grid; gap: 14px; margin-top: 16px; }
+#account-form label { display: grid; gap: 6px; font-weight: 650; }
+.account-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#account-message:empty { display: none; }
+#account-verification label { margin-top: 8px; }
+button, input { font: inherit; }
+button { cursor: pointer; min-height: 44px; border: 0; border-radius: 12px; color: var(--red); background: var(--tint); font-weight: 650; }
+.primary { background: var(--red); color: white; padding: 10px 16px; }
+.add { width: 100%; }
+.add span { margin-right: 5px; }
+.periods { display: grid; grid-template-columns: repeat(3, 1fr); padding: 3px; border: 0; margin: 20px 0 14px; border-radius: 24px; background: var(--tint); min-width: 0; }
+.periods label { position: relative; cursor: pointer; }
+.periods input { position: absolute; opacity: 0; }
+.periods span { display: grid; place-items: center; min-height: 44px; border-radius: 21px; color: var(--ink); font-size: .9rem; }
+.periods input:checked + span { background: var(--red); color: white; }
+.periods input:focus-visible + span, button:focus-visible, a:focus-visible, #visit-form :is(input, select, textarea):focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.total { display: grid; justify-items: center; gap: 2px; padding: 17px; border-radius: 16px; background: var(--tint); }
+.total strong { font-size: 1.75rem; line-height: 1.15; }
+.list-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; margin-top: 14px; }
+h2 { font-size: 1.15rem; margin: 0; }
+#view-all { background: transparent; white-space: nowrap; padding: 0 4px; }
+ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+li, .empty { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: white; }
+li { display: flex; align-items: flex-start; gap: 11px; overflow-wrap: anywhere; }
+.initials { flex: 0 0 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--tint); color: var(--red); font-weight: 700; }
+.visit-meta, .empty { color: var(--muted); font-size: .875rem; }
+.visit-meta { margin: 3px 0 0; }
+#walk-in-sync:empty { display: none; }
+.case-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--red); }
+.visit-notes { white-space: pre-wrap; }
+#add-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(100%, 480px);
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    border: 0;
+    padding: max(24px, env(safe-area-inset-top)) 22px max(26px, env(safe-area-inset-bottom));
+    background: #fff;
+    color: inherit;
+}
+#add-dialog::backdrop { background: var(--canvas); }
+.add-header { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; text-align: center; margin-bottom: 13px; }
+.add-header h2 { font-size: 1.25rem; }
+.add-header button { display: grid; place-items: center; background: transparent; }
+.add-header svg { width: 23px; height: 23px; }
+.add-intro { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 16px; margin-bottom: 18px; border-radius: 15px; border: 1px solid var(--orange); background: var(--tint); color: var(--red); }
+.add-intro svg { width: 61px; height: 67px; flex: none; }
+.add-intro p { max-width: 170px; margin: 0; font-size: .94rem; line-height: 1.4; }
+#visit-form, #visit-form label:not([hidden]) { display: grid; gap: 6px; }
+#visit-form { gap: 17px; }
+#visit-form label > span { font-weight: 650; }
+#visit-form label > span svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: -4px;
+    fill: none;
+    stroke: var(--red);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+#visit-form b { color: var(--red); }
+#visit-form .optional { font-weight: 400; }
+:is(#visit-form, #account-form) :is(input, select, textarea) {
+    min-height: 46px;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+}
+#visit-form :is(input, textarea)::placeholder,
+#visit-form select:invalid { color: var(--muted); }
+#visit-form textarea { min-height: 66px; resize: vertical; }
+#visit-form .primary { min-height: 52px; margin-top: 4px; }
+#save-error { margin: 0; color: var(--red); }
+@media (min-width: 520px) {
+    main { margin-block: 18px; min-height: calc(100dvh - 36px); border-radius: 26px; box-shadow: 0 12px 35px #36435b14; }
+    #add-dialog { height: calc(100% - 36px); border-radius: 26px; box-shadow: 0 12px 35px #36435b14; }
+}

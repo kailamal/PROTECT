@@ -71,7 +71,7 @@
 
         </aside>
 
-        <main class="records-page">
+        <main class="records-page">  `1
             <div id="records-page">
                 <header class="page-header">
                     <div class="heading">
@@ -159,9 +159,6 @@
                                         Assigned officer
                                     </th>
                                     <th scope="col">
-                                        Walk-in
-                                    </th>
-                                    <th scope="col">
                                         Case status
                                     </th>
                                 </tr>
@@ -232,7 +229,22 @@
                                 <input name="occupation" maxlength="100">
                             </label>
                             <label>Educational Attainment
-                                <input name="education" maxlength="100">
+                                <select name="education">
+                                    <option value="">Select educational attainment</option>
+                                    <option>No Formal Education</option>
+                                    <option>Elementary Level</option>
+                                    <option>Elementary Graduate</option>
+                                    <option>Junior High School Level</option>
+                                    <option>Junior High School Graduate</option>
+                                    <option>Senior High School Level</option>
+                                    <option>Senior High School Graduate</option>
+                                    <option>Vocational / Technical Course</option>
+                                    <option>College Level</option>
+                                    <option>College Graduate</option>
+                                    <option>Postgraduate Level</option>
+                                    <option>Master's Degree</option>
+                                    <option>Doctorate Degree</option>
+                                </select>
                             </label>
                             <div class="mobile-number">
                                 <label for="mobile-contact">Mobile No.</label>
@@ -259,16 +271,16 @@
                         <h2 id="case-title" tabindex="-1">Case &amp; supervision</h2>
                         <div class="wizard-grid">
                             <div>
-                                <label for="docket-number">PPA Docket No. (PI / PS)</label>
-                                <div class="paired-fields">
-                                    <select name="category" required aria-label="Docket prefix and category" aria-describedby="docket-prefix-help">
+                                <label for="docket-number">PPA Docket No.</label>
+                                <div class="paired-fields docket-field">
+                                    <select name="category" required aria-label="Docket prefix and category">
                                         <option value="">PI / PS</option>
                                         <option value="Probation Integration">PI</option>
                                         <option value="Probation Supervision">PS</option>
                                     </select>
+                                    <span class="docket-separator" aria-hidden="true">-</span>
                                     <input id="docket-number" name="docket" maxlength="40" placeholder="Docket number">
                                 </div>
-                                <small id="docket-prefix-help">PI = Probation Integration · PS = Probation Supervision</small>
                             </div>
                             <label>Court
                                 <input name="court" maxlength="160">
@@ -346,7 +358,7 @@
                                     <input id="supervision-end" name="end" type="date">
                                 </div>
                             </div>
-                            <label>Officer-in-Charge
+                            <label>Supervising-in-Charge
                                 <input id="case-officer" readonly>
                             </label>
                             <label>Remarks
@@ -358,9 +370,6 @@
                                     <option>Probation</option>
                                     <option>Parole</option>
                                 </select>
-                            </label>
-                            <label>Walk-in
-                                <input name="date" type="date" required>
                             </label>
                         </div>
                     </section>

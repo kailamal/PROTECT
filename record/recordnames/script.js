@@ -4,15 +4,13 @@ const byId = id => document.getElementById(id);
 const records = ProtectStore.load();
 const caseId = new URLSearchParams(location.search).get('case');
 const client = caseId ? records.find(record => record.caseId === caseId) : records[0];
-const fields = [
-    ['No.', 'number'], ['Name', 'client'], ['PPA Docket No.', 'docket'],
+const overviewFields = [
+    ['No.', 'number'], ['Name', 'client'], ['Docket No.', 'docket'],
     ['Court', 'court'], ['Criminal Case No.', 'criminalCase'], ['Offense', 'offense'],
-    ['Rehab Type', 'rehab'], ['Supervision', 'supervision'], ['Category', 'category'], ['Case ID', 'caseId'],
-    ['Assigned Officer', 'officer'], ['Walk-in', 'date'], ['Case Status', 'status'],
-    ['Date Received', 'received'], ['Date Granted', 'granted'], ['Term', 'term'],
-    ['Contact Number', 'contact'], ['Residential Area', 'area'], ['Remarks', 'remarks'],
-    ['Age', 'age'], ['Sex', 'sex'], ['Occupation', 'occupation'], ['Educational Attainment', 'education'],
-    ['Complied', 'complied'], ['Start', 'start'], ['End', 'end']
+    ['Rehab Type (OUT/IN)', 'rehab'], ['Complied', 'complied'], ['Address', 'area'],
+    ['Occupation', 'occupation'], ['Educational Attainment', 'education'],
+    ['Age', 'age'], ['Sex', 'sex'], ['Mobile Number', 'contact'], ['Remarks', 'remarks'],
+    ['Supervising-in-Charge', 'officer']
 ];
 let revealed = false;
 
@@ -21,13 +19,6 @@ function persist() {
     byId('feedback').textContent = saved
         ? 'Changes saved for this browser tab.'
         : 'Updated on this page. Browser storage is unavailable; these changes cannot follow navigation.';
-}
-
-function labelDate(value) {
-    if (!value) return '\u2014';
-    return new Date(`${value}T12:00:00`).toLocaleDateString('en-GB', {
-        day: '2-digit', month: 'short', year: 'numeric'
-    });
 }
 
 function historyEntry(date, title, detail) {
@@ -61,17 +52,14 @@ function render() {
     archiveButton.title = client.archived ? 'Move this case to Active cases' : 'Move this case to Archived';
     byId('case-headings').replaceChildren();
     byId('case-values').replaceChildren();
-    fields.forEach(([label, key]) => {
+    overviewFields.forEach(([label, key]) => {
         const th = document.createElement('th');
         th.scope = 'col';
         th.textContent = label;
         const td = document.createElement('td');
         let value = key === 'number' ? records.indexOf(client) + 1 : client[key];
-        if (key === 'status') value = ProtectStore.caseStatus(client);
         if (key === 'contact' && value && !revealed) value = `\u2022\u2022\u2022\u2022 ${value.slice(-4)}`;
-        if (['date', 'received', 'granted', 'start', 'end'].includes(key) && value) value = labelDate(value);
-        if (!value && ['start', 'end'].includes(key)) value = client[`${key}Status`];
-        td.textContent = value || '\u2014';
+        td.textContent = value === '' || value == null ? '\u2014' : value;
         byId('case-headings').append(th);
         byId('case-values').append(td);
     });
@@ -107,29 +95,25 @@ if (!client) {
     client.lastViewed = Date.now();
     ProtectStore.save(records);
 
-    const overviewFields = [
-        ['Name', 'client'], ['PPA Docket No. (PI / PS)', 'docket'], ['Court', 'court'],
-        ['Criminal Case No.', 'criminalCase'], ['Offense', 'offense'], ['Rehab Type (OUT/IN)', 'rehab'],
-        ['Complied yes or No', 'complied'], ['Start', 'start'], ['End', 'end'],
-        ['Address', 'area'], ['Occupation', 'occupation'], ['Educational Attainment', 'education'],
-        ['Age', 'age'], ['SEX', 'sex'], ['Mobile No.', 'contact'],
-        ['Remarks', 'remarks'], ['Officer-in-Charge', 'officer'], ['Category', 'category']
+    const primaryEditFields = overviewFields.filter(([, key]) => key !== 'number');
+    const additionalFields = [
+        ['Start', 'start'], ['End', 'end'], ['Category', 'category'],
+        ['Supervision', 'supervision'], ['Case Status', 'status'],
+        ['Date Received', 'received'], ['Date Granted', 'granted'], ['Term', 'term']
     ];
-    const additionalFields = fields.filter(([, key]) =>
-        !['number', 'caseId'].includes(key) && !overviewFields.some(([, overviewKey]) => overviewKey === key)
-    );
     const editForm = byId('edit-form');
     function appendEditField(container, [label, key]) {
         const wrapper = document.createElement('label');
         wrapper.textContent = label;
         const options = {
+            rehab: ['', 'OUT', 'IN'],
             complied: ['', 'Yes', 'No'],
             category: ['', 'Probation Integration', 'Probation Supervision'],
             supervision: ['Probation', 'Parole'],
             status: ['', 'Absconding probationer', 'Active Supervision', 'Under Investigation']
         };
-        if (key === 'status' && client.status && !options.status.includes(client.status)) {
-            options.status.push(client.status);
+        if (['rehab', 'status'].includes(key) && client[key] && !options[key].includes(client[key])) {
+            options[key].push(client[key]);
         }
         const input = document.createElement(options[key] ? 'select' : 'input');
         input.name = key;
@@ -142,7 +126,7 @@ if (!client) {
                 input.append(option);
             });
         } else {
-            input.type = ['date', 'received', 'granted', 'start', 'end'].includes(key) ? 'date' : key === 'contact' ? 'tel' : 'text';
+            input.type = ['received', 'granted', 'start', 'end'].includes(key) ? 'date' : key === 'contact' ? 'tel' : 'text';
             input.maxLength = 160;
             input.placeholder = '\u2014';
             if (key === 'age') {
@@ -151,14 +135,14 @@ if (!client) {
                 input.max = '130';
             }
         }
-        input.required = ['client', 'date'].includes(key);
+        input.required = key === 'client';
         input.readOnly = key === 'officer';
         wrapper.append(input);
         container.append(wrapper);
     }
-    overviewFields.forEach(field => appendEditField(byId('edit-fields'), field));
+    primaryEditFields.forEach(field => appendEditField(byId('edit-fields'), field));
     additionalFields.forEach(field => appendEditField(byId('edit-additional-fields'), field));
-    const editFields = [...overviewFields, ...additionalFields];
+    const editFields = [...primaryEditFields, ...additionalFields];
     function closeEditor() {
         editForm.hidden = true;
         byId('case-content').hidden = false;

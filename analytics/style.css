@@ -810,19 +810,19 @@ dialog p {
 .metric-card h2 {
     margin: 0;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .metric-value {
     margin: 10px 0 4px;
-    font-size: 38px;
+    font-size: 42px;
     font-weight: 600;
     line-height: 1.1;
 }
 
 .metric-description {
     margin: 0;
-    font-size: 15px;
+    line-height: 1.4;
 }
 
 .blue {
@@ -870,6 +870,21 @@ dialog p {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
+}
+
+#active-share-ring {
+    border-color: transparent;
+    background: linear-gradient(white, white) padding-box,
+        conic-gradient(#3d63d7 var(--share, 0%), #e2e5e8 0) border-box;
+}
+
+#appointment-chart[hidden] {
+    display: none;
+}
+
+#completed-appointments-breakdown summary {
+    cursor: pointer;
+    margin-bottom: 8px;
 }
 
 .chart-header {
@@ -1023,7 +1038,7 @@ dialog p {
     }
 
     .metric-card h2 {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .metric-ring {
@@ -1034,7 +1049,11 @@ dialog p {
     }
 
     .metric-description {
-        font-size: 13px;
+        font-size: 15px;
+    }
+
+    .chart-card h2 {
+        font-size: 18px;
     }
 
     .chart-grid {
@@ -1061,7 +1080,7 @@ dialog p {
     .analytics-page #snapshot, .analytics-page #report-button {
         min-width: 0;
         width: 100%;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .analytics-page .header-actions label {
@@ -1070,7 +1089,7 @@ dialog p {
     }
 
     .metric-value {
-        font-size: 32px;
+        font-size: 35px;
     }
 
     .metric-card h2 {
@@ -1078,7 +1097,7 @@ dialog p {
     }
 
     .metric-description {
-        font-size: 12px;
+        font-size: 13px;
         max-width: 110px;
     }
 
@@ -1107,4 +1126,40 @@ dialog p {
         font-size: 14px;
         line-height: 1.5;
     }
+}
+
+.analytics-page .page-header { margin-bottom: 18px; }
+.analytics-page .heading::after { height: 2px; margin-top: 12px; }
+.analytics-page #snapshot, .analytics-page #report-button {
+    min-width: 0;
+    min-height: 47px;
+    padding: 8px 14px;
+}
+.analytics-page #snapshot, .analytics-page .button { font-size: 17px; }
+.analytics-page .stats-grid { gap: 18px; margin-bottom: 18px; }
+.analytics-page .metric-card, .analytics-page .chart-card { border-radius: 10px; }
+.analytics-page .metric-card { min-height: 139px; }
+.analytics-page .metric-description { padding-right: 34px; }
+.analytics-page .metric-ring { width: 32px; height: 28px; border-width: 4px; right: 12px; top: auto; bottom: 12px; }
+.analytics-page .chart-grid { gap: 18px; }
+.analytics-page .chart-card { min-height: 190px; padding: 12px 15px; }
+.analytics-page .chart-header .button { min-width: 0; min-height: 41px; padding: 8px 14px; }
+.analytics-page .case-total { margin: 5px 0 10px; }
+.analytics-page .trend-chart { margin-top: 6px; max-height: 175px; }
+.analytics-page .stacked-bar { height: 11px; margin-bottom: 14px; background: #eff0f3; }
+.analytics-page .legend { gap: 8px; }
+.analytics-page .legend > [hidden] { display: none; }
+.analytics-page .caseload-breakdown { margin-top: 15px; }
+.analytics-page .privacy-note { margin-top: 18px; padding: 10px 12px; }
+#completed-appointments-breakdown table { min-width: 0; }
+.active-segment { background: #7652c4; }
+.terminated-segment { background: #ed7b23; }
+.absconding-segment { background: #ca4255; }
+.other-segment, .other-dot { background: #818a9d; }
+
+@media (max-width: 650px) {
+    .analytics-page .heading p { font-size: 14px; }
+    .analytics-page #snapshot, .analytics-page .button { font-size: 15px; }
+    .analytics-page #snapshot, .analytics-page #report-button { min-height: 42px; }
+    .analytics-page .metric-card { min-height: 135px; }
 }

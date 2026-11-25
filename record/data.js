@@ -18,5 +18,17 @@ window.ProtectStore = (() => {
     function caseStatus(record) {
         return record.archived ? 'Terminated' : record.status;
     }
-    return { load, save, caseStatus };
+    const manilaDate = new Intl.DateTimeFormat('sv-SE', {
+        timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit'
+    });
+    function completedAppointmentsByDate() {
+        const counts = new Map();
+        for (const record of load()) {
+            const createdAt = Date.parse(record.createdAt);
+            const date = Number.isFinite(createdAt) ? manilaDate.format(createdAt) : record.date;
+            if (date) counts.set(date, (counts.get(date) || 0) + 1);
+        }
+        return counts;
+    }
+    return { load, save, caseStatus, completedAppointmentsByDate };
 })();

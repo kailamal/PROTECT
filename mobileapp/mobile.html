@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" class="auth-pending">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#a7192b">
+    <title>Walk-ins | P.R.O.T.E.C.T.</title>
+    <link rel="icon" href="../signin/logo.png">
+    <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+    <main>
+        <header class="brand">
+            <img src="../signin/logo.png" alt="">
+            <h1>P.R.O.T.E.C.T.</h1>
+            <a class="profile-link walk-in-content" href="profile.html">Profile</a>
+        </header>
+        <section class="session-status" aria-labelledby="session-title">
+            <h2 id="session-title">Walk-ins</h2>
+            <p>Checking your sign-in. If this screen stays open, sign in and reopen Walk-ins.</p>
+            <a href="../signin/sign-in.html?app=mobile">Go to sign in</a>
+        </section>
+        <div class="walk-in-content">
+        <button class="primary add" id="add-visit" type="button"><span aria-hidden="true">＋</span> Add Walk-in</button>
+
+        <fieldset class="periods" aria-label="Visit period">
+            <label><input type="radio" name="period" value="today" checked><span>Today</span></label>
+            <label><input type="radio" name="period" value="monthly"><span>Monthly</span></label>
+            <label><input type="radio" name="period" value="yearly"><span>Yearly</span></label>
+        </fieldset>
+
+        <div class="total" aria-live="polite"><strong id="total">0</strong><span>Total</span></div>
+        <section aria-labelledby="list-title">
+            <header class="list-header">
+                <h2 id="list-title">Today's Walk-ins</h2>
+                <button id="view-all" type="button" hidden>View All <span aria-hidden="true">→</span></button>
+            </header>
+            <ul id="visits"></ul>
+            <p id="walk-in-sync" role="status"></p>
+            <p class="empty" id="empty" hidden>No walk-ins recorded for this period.</p>
+        </section>
+        </div>
+    </main>
+
+    <dialog id="add-dialog" aria-labelledby="add-title">
+        <header class="add-header">
+            <button id="cancel-add" type="button" aria-label="Back to Walk-ins"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <h2 id="add-title">Add Walk-in</h2>
+            <button id="home-add" type="button" aria-label="Walk-ins home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 11 12 1l11 10h-3v11h-6v-7h-4v7H4V11Z"/></svg></button>
+        </header>
+        <div class="add-intro">
+            <svg viewBox="0 0 64 72" aria-hidden="true">
+                <circle cx="29" cy="10" r="6" fill="currentColor"/>
+                <path d="m28 23-8 20 12 8 4 16M20 43l-4 12L6 67m22-44 9 13 11 3M28 23l-13 4-6 15" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M49 8v6m11-2-5 5m7 6h-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <p>Enter the details below to add a walk-in record.</p>
+        </div>
+        <form id="visit-form">
+            <label><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/></svg>Name <b aria-hidden="true">*</b></span><input name="name" required maxlength="120" placeholder="Enter name..."></label>
+            <label>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V4h8v3M3 13h18m-9-1v3"/></svg>Purpose <b aria-hidden="true">*</b></span>
+                <select name="purpose" required>
+                    <option value="" disabled selected>Select purpose...</option>
+                    <option>Case registration</option>
+                    <option>Clearance</option>
+                    <option>Document request</option>
+                    <option>Follow-up</option>
+                    <option>Inquiry</option>
+                    <option>Other</option>
+                </select>
+            </label>
+            <label id="other-purpose" hidden>Other purpose <input name="otherPurpose" maxlength="160" disabled></label>
+            <label><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 5h2m4 0h2"/></svg>Date <b aria-hidden="true">*</b></span><input name="date" type="date" required></label>
+            <label><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Time <b aria-hidden="true">*</b></span><input name="time" type="time" required></label>
+            <label><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h9l5 5v13H5zm9 0v6h5M8 13h8m-8 4h6"/></svg>Remarks <span class="optional">(Optional)</span></span><textarea name="notes" rows="2" maxlength="1000" placeholder="Add remarks..."></textarea></label>
+            <p id="save-error" role="alert" hidden></p>
+            <button class="primary" type="submit">Add Walk-in</button>
+        </form>
+    </dialog>
+
+    <script src="../record/data.js"></script>
+    <script src="../walk-ins/visits.js"></script>
+    <script src="mobile.js"></script>
+    <script src="../auth/vendor/supabase-2.49.8.js"></script>
+    <script src="../auth/config.js"></script>
+    <script src="../auth/client.js"></script>
+    <script src="../auth/guard.js"></script>
+</body>
+</html>

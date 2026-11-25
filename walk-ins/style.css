@@ -772,33 +772,6 @@ dialog p {
     margin-top: 17px;
 }
 
-.today-summary {
-    display: grid;
-    grid-template-columns: 80px 1fr 1.05fr 1.8fr 2fr;
-    align-items: center;
-    gap: 20px;
-    padding: 18px 22px;
-    background: #fdf0e7;
-    border-radius: 8px;
-    margin-bottom: 24px;
-    font-size: 17px;
-}
-
-.today-summary h2 {
-    margin: 0;
-    font-size: 14px;
-    text-transform: uppercase;
-}
-
-.today-summary strong {
-    font-size: 17px;
-    font-weight: 600;
-}
-
-.today-summary .completed {
-    color: #197a46;
-}
-
 .log-card {
     border: 1px solid var(--border);
     border-radius: 13px;
@@ -816,7 +789,7 @@ dialog p {
     padding: 21px 24px;
 }
 
-.log-header h2, .follow-up-header h2 {
+.log-header h2 {
     margin: 0;
     font-size: 21px;
     font-weight: 600;
@@ -833,6 +806,7 @@ dialog p {
 }
 
 .walk-ins-page table {
+    min-width: 660px;
     table-layout: fixed;
     width: 100%;
 }
@@ -850,7 +824,7 @@ dialog p {
 }
 
 .log-table th:first-child {
-    width: 29%;
+    width: 25%;
 }
 
 .log-table th:nth-child(2) {
@@ -858,11 +832,16 @@ dialog p {
 }
 
 .log-table th:nth-child(3) {
-    width: 21%;
+    width: 20%;
 }
 
 .log-table th:nth-child(4) {
-    width: 35%;
+    width: 25%;
+}
+
+.log-table .visit-remarks {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .log-table tbody tr:nth-child(even) {
@@ -873,7 +852,7 @@ dialog p {
     background: #fff8f1;
 }
 
-.visit-button, .review-button {
+.visit-button {
     border: 0;
     padding: 0;
     background: transparent;
@@ -882,70 +861,9 @@ dialog p {
     text-align: left;
 }
 
-.visit-button:hover, .review-button:hover {
+.visit-button:hover {
     color: var(--red);
     text-decoration: underline;
-}
-
-.follow-up {
-    box-shadow: 0 6px 16px #632f1605;
-}
-
-.follow-up-header {
-    position: relative;
-    padding: 21px 24px 10px;
-}
-
-.follow-up-header::before {
-    content: '';
-    position: absolute;
-    left: 22px;
-    top: 0;
-    height: 2px;
-    width: 52px;
-    background: var(--orange);
-}
-
-.follow-up-header p {
-    margin: 8px 0 0;
-    font-size: 17px;
-}
-
-.follow-up-table th {
-    padding-top: 10px;
-    padding-bottom: 8px;
-    text-transform: uppercase;
-}
-
-.follow-up-table th:first-child {
-    width: 29%;
-}
-
-.follow-up-table th:nth-child(2) {
-    width: 21%;
-}
-
-.follow-up-table th:nth-child(3) {
-    width: 19%;
-}
-
-.follow-up-table th:nth-child(4) {
-    width: 31%;
-}
-
-.review-badge {
-    display: inline-block;
-    background: #fff0e6;
-    color: #a64a14;
-    border-radius: 4px;
-    padding: 5px 11px;
-    min-width: 155px;
-    font-size: 14px;
-}
-
-.review-badge.resolved {
-    color: #176333;
-    background: #e5f4eb;
 }
 
 #visit-details {
@@ -964,56 +882,14 @@ dialog p {
     margin: 0;
 }
 
-.review-label {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-.review-label textarea {
-    resize: vertical;
-    padding: 12px;
-    border: 1px solid #e3e0e0;
-    border-radius: 8px;
-    font: inherit;
-    color: var(--ink);
-}
-
-@media (max-width: 1120px) {
-    .today-summary {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    .today-summary .missed {
-        grid-column: span 2;
-    }
-
-    .log-header p {
-        padding-right: 0;
-    }
-}
-
 @media (max-width: 650px) {
-    .today-summary {
-        grid-template-columns: 1fr 1fr;
-        font-size: 15px;
-        padding: 18px;
-    }
-
-    .today-summary strong {
-        font-size: 15px;
-    }
-
     .log-header {
         flex-wrap: wrap;
         padding: 18px;
         gap: 10px;
     }
 
-    .log-header h2, .follow-up-header h2 {
+    .log-header h2 {
         font-size: 19px;
     }
 

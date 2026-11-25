@@ -122,11 +122,11 @@ h2 {
 
 .content-grid {
     display: grid;
-    grid-template-columns: minmax(0,1.76fr) minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 25px 30px;
 }
 
-.appointments, .upcoming {
+.appointments {
     min-height: 237px;
     padding: 18px 26px 21px;
 }
@@ -216,67 +216,7 @@ progress::-moz-progress-bar {
     color: #b0162e;
 }
 
-.text-button {
-    border: 0;
-    background: none;
-    color: #b00e25;
-    padding: 0;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.text-button:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-}
-
-.upcoming {
-    padding-left: 24px;
-    padding-right: 25px;
-}
-
-.upcoming .card-header {
-    padding-right: 40px;
-}
-
-.schedule-list, .activity-list {
-    list-style: none;
-    padding: 0;
-    margin: 22px 0 0;
-}
-
-.schedule-list li {
-    display: grid;
-    grid-template-columns: 66px 1fr;
-    gap: 16px;
-}
-
-.schedule-list li + li {
-    margin-top: 9px;
-}
-
-.schedule-list time {
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-.schedule-list li div {
-    padding-bottom: 6px;
-    border-bottom: 1px solid #e5e8ed;
-    line-height: 1.2;
-}
-
-.schedule-list li:last-child div {
-    border: 0;
-    padding-bottom: 0;
-}
-
-.schedule-list span {
-    display: block;
-    font-size: 14px;
-}
-
-.attention, .activity {
+.attention {
     min-height: 300px;
     padding: 19px 26px 24px;
 }
@@ -321,46 +261,6 @@ th:nth-child(2) {
 td:last-child {
     text-align: right;
     padding-right: 8px;
-}
-
-.activity {
-    padding-left: 24px;
-    padding-right: 40px;
-}
-
-.activity-list {
-    margin-top: 24px;
-    display: grid;
-    gap: 28px;
-}
-
-.activity-list li {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding-left: 25px;
-}
-
-.activity-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 7px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #2b8b5c;
-}
-
-.activity-list p {
-    margin: 0;
-    line-height: 1.25;
-}
-
-.activity-list span, .activity-list time {
-    font-size: 14px;
-    line-height: 1.4;
 }
 
 .date-note {
@@ -414,10 +314,6 @@ dialog p {
     line-height: 1.6;
 }
 
-dialog .schedule-list {
-    margin-bottom: 24px;
-}
-
 .close-button {
     border: 0;
     border-radius: 8px;
@@ -434,7 +330,6 @@ dialog .schedule-list {
 
     .content-grid {
         gap: 22px;
-        grid-template-columns: minmax(0,1.6fr) minmax(0,1fr);
     }
 
     .progress-row {
@@ -462,20 +357,8 @@ dialog .schedule-list {
         height: 37px;
     }
 
-    .upcoming .card-header {
-        padding-right: 0;
-    }
-
     h2 {
         font-size: 18px;
-    }
-
-    .activity {
-        padding-right: 24px;
-    }
-
-    .activity-list p {
-        font-size: 16px;
     }
 
     td {
@@ -493,26 +376,6 @@ dialog .schedule-list {
         grid-template-columns: repeat(2,minmax(0,1fr));
     }
 
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .appointments {
-        order: 0;
-    }
-
-    .upcoming {
-        order: 1;
-    }
-
-    .attention {
-        order: 2;
-    }
-
-    .activity {
-        order: 3;
-    }
-
     .page-header {
         flex-wrap: wrap;
         gap: 12px;
@@ -524,14 +387,6 @@ dialog .schedule-list {
 
     .table-scroll {
         margin-top: 25px;
-    }
-
-    .activity-list {
-        gap: 22px;
-    }
-
-    .activity {
-        min-height: auto;
     }
 
     .officer-name {
@@ -585,7 +440,7 @@ dialog .schedule-list {
         top: 62px;
     }
 
-    .appointments, .upcoming, .attention, .activity {
+    .appointments, .attention {
         padding: 20px 18px;
     }
 
@@ -611,10 +466,6 @@ dialog .schedule-list {
 
     .attention table {
         min-width: 680px;
-    }
-
-    .activity-list span {
-        font-size: 12px;
     }
 
 }
